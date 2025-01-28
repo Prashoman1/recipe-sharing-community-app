@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 const RecipeForm = () => {
   const router = useRouter();
   const {
-    mutate: createRecipeAPi,
+    mutate: createRecipePost,
     isPending,
     isSuccess,
     data
@@ -41,10 +41,13 @@ const RecipeForm = () => {
     }
     const insertValue = {
       ...form,
+      isPremium: form.premium,
       cookingTime: Number(form.cookingTime),
       image: uploadImage,
     };
-    createRecipeAPi(insertValue);
+    // console.log({ insertValue });
+    
+    createRecipePost(insertValue);
   };
 
   useEffect(() => {

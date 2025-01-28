@@ -22,4 +22,24 @@ export const getRecipesByAdmin = async () => {
   } catch (error) {
     return error;
   }
-}
+};
+
+export const RecipePublicUnPublishAPi = async (id: string) => {
+  try {
+    // console.log({id});
+    
+    const response = await axiosInstance.put(`/recipe/publish/${id}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deleteRecipeApi = async (id: string) => {
+  try {
+    const response = await axiosInstance.delete(`recipe/delete/${id}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

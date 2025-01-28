@@ -1,7 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
-const ResetPassword = () => {
+type ResetPasswordProps = {
+  id: string;
+  token: string;
+}
+
+const ResetPassword = ({id, token}:ResetPasswordProps) => {
+  const router = useRouter();
   const {
     register,
     formState: { errors },
@@ -10,9 +20,32 @@ const ResetPassword = () => {
   } = useForm();
 
   const handlePassReset = async (data: FieldValues) => {
-    // forgetEmailSend(data);
-    console.log(data);
+    const { password } = data;
+    const insetData ={
+      id,
+      newPassword: password,
+    }
+    // console.log(insetData);
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/reset-password`, insetData,{
+        headers:{
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if(response?.data?.success){
+        toast.success("Password reset successfully");
+        router.push("/login");
+      }else{
+        toast.error(response?.data?.message || "An error occurred, please try again later");
+      }
+      
+    } catch (error:any) {
+      toast.error(error?.message ||"An error occurred, please try again later");
+      
+    }
+    
   };
+  
   return (
     <>
      <div className="w-full h-[100vh] flex items-center justify-center">

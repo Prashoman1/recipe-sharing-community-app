@@ -23,7 +23,7 @@ export const loginApi = async (userData: any) => {
 
 export const registerApi = async (userData: any) => {
   try {
-    console.log(process.env.NEXT_PUBLIC_API_URL);
+    // console.log(process.env.NEXT_PUBLIC_API_URL);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`,
@@ -81,6 +81,22 @@ export const changePassword = async (data: any) => {
   try {
     const response = await axiosInstance.post(
       "auth/change-password",
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+export const forgetPassword = async (data: any) => {
+  try {
+    const response = await axiosInstance.post(
+      "auth/forget-password",
       data,
       {
         headers: {

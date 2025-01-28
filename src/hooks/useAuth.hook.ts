@@ -2,6 +2,7 @@
 
 import {
   changePassword,
+  forgetPassword,
   loginApi,
   registerApi,
   updateProfileInfo,
@@ -88,6 +89,33 @@ export const useUpdateProfile = () => {
     },
   });
 };
+export const useForgetPassword = () => {
+  return useMutation<any, Error, FieldValues>({
+    mutationKey: ["FORGET_PASSWORD"],
+    mutationFn: async (userData) => await forgetPassword(userData),
+    onSuccess: (data) => {
+      if (data) {
+        if (data.success) {
+          toast.success(data.message);
+        }
+        if (!data.success) {
+          console.log(data.errorSources);
+
+          data.errorSources.map((e: { message: string }) =>
+            toast.error(e.message)
+          );
+        }
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+
 export const useChangePassword = () => {
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["PASSWORD_CHANGE"],

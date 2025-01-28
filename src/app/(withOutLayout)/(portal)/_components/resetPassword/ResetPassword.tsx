@@ -1,17 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-type ResetPasswordProps = {
-  id: string;
-  token: string;
-}
-
-const ResetPassword = ({id, token}:ResetPasswordProps) => {
+const ResetPassword = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const token = searchParams.get("token");
   const router = useRouter();
+
+  useEffect(() => {
+    if (!id || !token) {
+      router.push("/not-found");
+    }
+  }, [id, token]);
+
   const {
     register,
     formState: { errors },

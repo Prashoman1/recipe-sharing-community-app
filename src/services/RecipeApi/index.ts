@@ -55,3 +55,12 @@ export const getAllPublicRecipes = async () => {
     return error;
   }
 }
+
+export const getSingleRecipe = async (id: string) => {
+  try {
+    const response = await axiosInstance.get(`/recipe/details/${id}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

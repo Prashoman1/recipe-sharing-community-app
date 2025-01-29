@@ -4,6 +4,7 @@
 import { getAllPublicRecipes } from "@/services/RecipeApi";
 import { useEffect, useState } from "react";
 import RecipeCard from "../RecipeCard/RecipeCard";
+import RecipeCardSkeleton from "../RecipeCardSkeleton/RecipeCardSkeleton";
 
 const RecipeSection = () => {
   const [recipes, setRecipes] = useState([]);
@@ -19,11 +20,11 @@ const RecipeSection = () => {
   }, []);
 
   console.log(recipes);
-  
 
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+        {loading && <RecipeCardSkeleton />}
         {recipes.map((recipe: any) => (
           <RecipeCard key={recipe._id} recipe={recipe} />
         ))}

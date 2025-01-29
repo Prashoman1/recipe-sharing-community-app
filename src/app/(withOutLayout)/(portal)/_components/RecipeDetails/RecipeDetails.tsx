@@ -3,8 +3,12 @@ import { useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 
 export default function RecipeDetails() {
+  const {id} = useParams();
+  console.log(id);
+  
   const recipe = {
     title: "Spaghetti Bolognese",
     description:

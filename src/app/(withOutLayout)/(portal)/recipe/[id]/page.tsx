@@ -1,10 +1,13 @@
 import React from 'react';
+import RecipeDetails from '../../_components/RecipeDetails/RecipeDetails';
 
-const page = () => {
+const page = ({ params: { id } }: { params: { id: string } }) => {
+    console.log({id});
+    
     return (
-        <div>
-            
-        </div>
+        <>
+            <RecipeDetails />
+        </>
     );
 };
 

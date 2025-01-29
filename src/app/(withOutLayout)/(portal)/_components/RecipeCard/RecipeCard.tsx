@@ -3,8 +3,9 @@
 
 import { currentUser } from "@/services/AuthApi";
 import { createLikeByRecipe, deleteLikeByRecipe } from "@/services/likeApi";
-import { Star, ThumbsUp } from "lucide-react";
+import { ArrowRight, Star, ThumbsUp } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { toast } from "react-toastify";
@@ -136,6 +137,9 @@ const RecipeCard = ({ recipe, refetch, setRefetch, isLiked }: TRecipeProps) => {
           >
             {recipe.isPremium ? "Premium" : "Free"}
           </span>
+          <Link href={`/recipe/${recipe._id}`}>
+            <ArrowRight className="text-green-600 font-bold" />
+          </Link>
         </div>
       </div>
     </div>

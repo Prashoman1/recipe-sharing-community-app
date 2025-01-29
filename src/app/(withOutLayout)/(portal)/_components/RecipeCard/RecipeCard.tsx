@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Star } from "lucide-react";
+import { Star, ThumbsUp } from "lucide-react";
 import Image from "next/image";
 
 type TRecipeProps = {
@@ -58,12 +58,13 @@ const RecipeCard = ({ recipe }: TRecipeProps) => {
         </div>
 
         {/* Free or Premium Tag */}
-        <div>
-            <span>
-                
-            </span>
+        <div className="flex items-center justify-between mt-3">
+          <span className="cursor-pointer flex items-center gap-1 text-gray-600">
+            <ThumbsUp className="tex-blue" />
+            {recipe.likes}
+          </span>
           <span
-            className={`mt-3 px-3 py-1 text-xs rounded-md ${
+            className={`px-3 py-1 text-xs rounded-md ${
               recipe.isPremium
                 ? "bg-yellow-100 text-yellow-600"
                 : "bg-green-100 text-green-600"

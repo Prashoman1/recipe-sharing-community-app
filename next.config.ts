@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         port: '' // No need to specify port if it's the default (80 for HTTP or 443 for HTTPS)
         
       },
+      {
+        protocol: 'https',
+        hostname: 'example.com', // Corrected the hostname
+        port: '' // No need to specify port if it's the default (80 for HTTP or 443 for HTTPS)
+        
+      },
     ],
   },
 };

@@ -20,10 +20,16 @@ const AdminSidebar = () => {
             <FiBookmark className="mr-2" size={20} /> Managed-Recipe
           </Link>
           <Link
-            href="/dashboard/admin/managed-admin"
+            href="/dashboard/admin/manage-admin"
             className="flex items-center text-gray-600 hover:text-emerald-600 transition"
           >
             <FiBookmark className="mr-2" size={20} /> Managed Admin
+          </Link>
+          <Link
+            href="/dashboard/admin/user-list"
+            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
+          >
+            <FiBookmark className="mr-2" size={20} /> User List
           </Link>
           <Link
             href="/dashboard/admin/profile"

@@ -1,7 +1,9 @@
+import RecipeSection from "./_components/RecipeSection/RecipeSection";
+
 export default function Home() {
   return (
     <>
-      <h1>home portal page</h1>
+      <RecipeSection/>
     </>
   );
 }

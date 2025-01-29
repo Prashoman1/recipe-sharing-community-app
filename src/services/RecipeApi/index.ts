@@ -43,3 +43,13 @@ export const deleteRecipeApi = async (id: string) => {
     return error;
   }
 };
+
+
+export const getAllPublicRecipes = async () => {
+  try {
+    const response = await axiosInstance.get("/recipe/get-all/public");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

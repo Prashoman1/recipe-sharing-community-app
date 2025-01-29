@@ -1,16 +1,55 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { currentUser } from "@/services/AuthApi";
+import { createLikeByRecipe, deleteLikeByRecipe } from "@/services/likeApi";
 import { Star, ThumbsUp } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+import { toast } from "react-toastify";
 
 type TRecipeProps = {
   recipe: any;
   key: any;
+  refetch: any;
+  setRefetch: any;
+  isLiked: any;
 };
 
-const RecipeCard = ({ recipe }: TRecipeProps) => {
+const RecipeCard = ({ recipe, refetch, setRefetch, isLiked }: TRecipeProps) => {
   // Check if the recipe is premium and if the user has access
+  const router = useRouter();
+
+  const handleClickLike = async (id: string) => {
+    if (id) {
+      const user = await currentUser();
+      if (!user) {
+        toast.warning("You need to login to like a recipe");
+        return router.push("/login");
+      }
+      const response = await createLikeByRecipe({ recipeId: id });
+      // console.log({response});
+      if (response?.success) {
+        setRefetch(!refetch);
+      }
+    }
+  };
+
+  const handleDislike = async (id: string) => {
+    if (id) {
+      const user = await currentUser();
+      if (!user) {
+        toast.warning("You need to login to like a recipe");
+        return router.push("/login");
+      }
+      const response = await deleteLikeByRecipe(id);
+      // console.log({response});
+      if (response?.success) {
+        setRefetch(!refetch);
+      }
+    }
+  };
 
   return (
     <div className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden">
@@ -59,10 +98,35 @@ const RecipeCard = ({ recipe }: TRecipeProps) => {
 
         {/* Free or Premium Tag */}
         <div className="flex items-center justify-between mt-3">
-          <span className="cursor-pointer flex items-center gap-1 text-gray-600">
+          {isLiked ? (
+            <span
+              onClick={() => {
+                handleDislike(recipe._id);
+              }}
+              className="cursor-pointer flex items-center gap-1 text-gray-600"
+            >
+              <ThumbsUp className="text-blue-500" />
+              {recipe.likes}
+            </span>
+          ) : (
+            <span
+              onClick={() => {
+                handleClickLike(recipe._id);
+              }}
+              className="cursor-pointer flex items-center gap-1 text-gray-600"
+            >
+              <ThumbsUp className="tex-blue" />
+              {recipe.likes}
+            </span>
+          )}
+          {/* <span
+          onClick={()=>{
+            handleClickLike(recipe._id)
+          }}
+           className="cursor-pointer flex items-center gap-1 text-gray-600">
             <ThumbsUp className="tex-blue" />
             {recipe.likes}
-          </span>
+          </span> */}
           <span
             className={`px-3 py-1 text-xs rounded-md ${
               recipe.isPremium

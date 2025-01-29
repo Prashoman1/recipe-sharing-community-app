@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 import axiosInstance from "@/lib/providers/AxiosInstance";
+import { revalidateTag } from "next/cache";
 
 export const createRecipe = async (data: any) => {
   try {
@@ -18,6 +19,7 @@ export const createRecipe = async (data: any) => {
 export const getRecipesByAdmin = async () => {
   try {
     const response = await axiosInstance.get("/recipe/all");
+    revalidateTag("my-likes");
     return response.data;
   } catch (error) {
     return error;

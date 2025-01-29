@@ -1,9 +1,12 @@
+import { getMyRecipeLikes } from "@/services/likeApi";
 import RecipeSection from "./_components/RecipeSection/RecipeSection";
 
-export default function Home() {
+export default async function Home() {
+  const myLikes = await getMyRecipeLikes().then((res) => res.data).catch((err) => err);
+
   return (
     <>
-      <RecipeSection/>
+      <RecipeSection myLikes={myLikes}/>
     </>
   );
 }

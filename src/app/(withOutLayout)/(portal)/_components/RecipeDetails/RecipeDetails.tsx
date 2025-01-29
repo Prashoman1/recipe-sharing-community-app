@@ -11,6 +11,7 @@ import {
   getCommentsByRecipe,
 } from "@/services/CommentApi";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 export default function RecipeDetails() {
   const { id } = useParams();
@@ -26,6 +27,7 @@ export default function RecipeDetails() {
       return error;
     }
   };
+  console.log({ comments });
 
   const fetchComments = async () => {
     try {
@@ -152,7 +154,29 @@ export default function RecipeDetails() {
           <ul className="mt-4 w-full py-5">
             {comments?.map((cItem: any, index) => (
               <li key={index} className="border-b py-2 text-gray-700">
-                {cItem?.comment}
+                <>
+                  <Link href={"/"} className="flex items-center space-x-2">
+                    {cItem?.user?.image ? (
+                      <Image
+                        src={cItem.user.image}
+                        alt="User Image"
+                        width={30}
+                        height={30}
+                        className="w-7 h-7 rounded-full"
+                      />
+                    ) : (
+                      <Image
+                        src="https://i.ibb.co.com/K0wG22V/307ce493-b254-4b2d-8ba4-d12c080d6651.jpg"
+                        alt="User Image"
+                        width={30}
+                        height={30}
+                        className="w-7 h-7 rounded-full"
+                      />
+                    )}
+                    <p className="font-bold">{cItem?.user?.userName}</p>
+                  </Link>
+                  <span className="ps-7 py-1">{cItem?.comment}</span>
+                </>
               </li>
             ))}
           </ul>

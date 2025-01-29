@@ -11,7 +11,7 @@ const RecipeSection = ({myLikes}:{myLikes:any}) => {
   const [loading, setLoading] = useState(true);
   const [refetch, setRefetch] = useState(false);
 
-  console.log({myLikes});
+  // console.log({myLikes});
   
 
   const fetchRecipes = async () => {

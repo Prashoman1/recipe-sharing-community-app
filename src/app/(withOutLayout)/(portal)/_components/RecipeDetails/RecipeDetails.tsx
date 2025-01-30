@@ -12,8 +12,13 @@ import {
 } from "@/services/CommentApi";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import { createRatingByRecipe } from "@/services/RatingApi";
 
-export default function RecipeDetails() {
+type TProps = {
+  myRating: any;
+};
+
+export default function RecipeDetails({ myRating }: TProps) {
   const { id } = useParams();
   const [recipe, setRecipe] = useState<any>(null);
   const [comments, setComments] = useState([]);
@@ -27,7 +32,7 @@ export default function RecipeDetails() {
       return error;
     }
   };
-  console.log({ comments });
+  console.log({ myRating });
 
   const fetchComments = async () => {
     try {
@@ -58,7 +63,7 @@ export default function RecipeDetails() {
       recipe: id,
       comment: commentText,
     };
-    console.log({ insertComment });
+    // console.log({ insertComment });
 
     try {
       const res = await createCommentByRecipe(insertComment);
@@ -73,6 +78,29 @@ export default function RecipeDetails() {
       toast.error(error?.message);
     }
   };
+
+  const handleAddRating = async () => {
+    if (id) {
+      try {
+        const insertRating = {
+          recipe: id,
+          rating: Number(rating),
+        };
+        const res = await createRatingByRecipe(insertRating);
+        if (res?.success) {
+          toast.success(res?.message);
+          setRating(0);
+          setRefetch(!refetch);
+        } else {
+          toast.error(res?.message);
+        }
+      } catch (error: any) {
+        toast.error(error?.message);
+      }
+    }
+  };
+
+  const myRatingIsRecipe = myRating?.find((item: any) => item.recipe === id);
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-md px-16">
@@ -90,7 +118,7 @@ export default function RecipeDetails() {
         </div>
         <div className="w-[50%]">
           <h1 className="text-3xl font-bold mt-4">{recipe?.title}</h1>
-          <p className="text-gray-700 mt-2">{recipe?.description}</p>
+
           <p className="mt-2 text-sm text-gray-600">
             Category: <span className="font-semibold">{recipe?.category}</span>
           </p>
@@ -111,28 +139,52 @@ export default function RecipeDetails() {
         </div>
       </div>
 
-      <div className="mt-4">
-        <h2 className="text-xl font-semibold">Tags</h2>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {recipe?.tags?.map((tag: any, index: number) => (
-            <span
-              key={index}
-              className="bg-gray-200 px-3 py-1 text-sm rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
+      <div className="flex gap-5">
+        <div className="w-1/2">
+          <div className="mt-4">
+            <h2 className="text-xl font-semibold">Tags</h2>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {recipe?.tags?.map((tag: any, index: number) => (
+                <span
+                  key={index}
+                  className="bg-gray-200 px-3 py-1 text-sm rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6">
+            {myRatingIsRecipe ? (
+              <div>
+                <p>Your Rating This Recipe : {myRatingIsRecipe?.rating}</p>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-xl font-semibold">Rate this Recipe</h2>
+                <Rating
+                  value={rating}
+                  onChange={setRating}
+                  className="mt-2"
+                  style={{ width: "150px", height: "30px" }}
+                />
+                <p className="text-gray-600 mt-2">
+                  You rated this {rating} stars
+                </p>
+                <button
+                  className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md"
+                  onClick={() => handleAddRating()}
+                >
+                  submit Rating
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">Rate this Recipe</h2>
-        <Rating
-          value={rating}
-          onChange={setRating}
-          className="mt-2"
-          style={{ width: "150px", height: "30px" }}
-        />
-        <p className="text-gray-600 mt-2">You rated this {rating} stars</p>
+        <div className="w-1/2">
+          <p className="text-gray-700 mt-2">{recipe?.description}</p>
+        </div>
       </div>
       <div className="mt-6">
         <h2 className="text-xl font-semibold">Comments</h2>

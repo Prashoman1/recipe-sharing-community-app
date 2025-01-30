@@ -1,8 +1,13 @@
+"use client";
 import React from "react";
 import { FiSearch, FiUser, FiBookmark, FiHome } from "react-icons/fi";
 import Link from "next/link";
 
+import UserDropdown from "../UserDrowpDown/UserDropDown";
+// import Image from "next/image";
+
 const Navbar = () => {
+  
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <nav className="container mx-auto flex items-center justify-between py-4 px-6">
@@ -40,7 +45,7 @@ const Navbar = () => {
             href="/profile"
             className="flex items-center text-gray-600 hover:text-emerald-600 transition"
           >
-            <FiUser className="mr-1" size={18} /> Profile
+            Profile
           </Link>
         </div>
 
@@ -50,12 +55,7 @@ const Navbar = () => {
             Post Recipe
           </button>
         </div>
-        <Link
-            href="/login"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiUser className="mr-1" size={18} /> Login
-          </Link>
+        <UserDropdown/>
 
         {/* Mobile Menu Icon */}
         <div className="md:hidden flex items-center space-x-4">

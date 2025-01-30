@@ -23,7 +23,9 @@ const Header = () => {
     <div>
       <header className="bg-white shadow-md sticky top-0 z-50">
         <div className="container mx-auto flex justify-between items-center px-6 py-4">
-          <div className="text-2xl font-bold text-emerald-600">Dashboard</div>
+          <div className="text-2xl font-bold text-emerald-600">
+            <Link href="/">Recipe App Dashboard</Link>
+            </div>
           <div className="relative">
             <button
               className="flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-full hover:bg-gray-200"

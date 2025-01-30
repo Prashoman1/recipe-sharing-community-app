@@ -3,6 +3,7 @@ import { useForm, FieldValues } from "react-hook-form";
 import Modal from "@/app/_components/shared/Modal/Modal";
 import { useChangePassword } from "@/hooks/useAuth.hook";
 import { useEffect } from "react";
+import UserApiLoading from "@/app/_components/shared/Loading/Loading";
 
 interface PasswordModelProps {
   modalRef: any;
@@ -22,6 +23,7 @@ const PasswordChangeModal = ({ modalRef, formRef }: PasswordModelProps) => {
     formState: { errors },
     handleSubmit,
     watch,
+    reset,
   } = useForm();
 
   // Watch the values of "new-password" and "confirm-password"
@@ -43,13 +45,14 @@ const PasswordChangeModal = ({ modalRef, formRef }: PasswordModelProps) => {
   useEffect(() => {
     if (!isPending && isSuccess && data?.success) {
       modalRef.current?.close();
-      formRef.current?.reset();
+      reset();
     }
   }, [isPending, isSuccess, data?.success]);
 
   return (
     <>
       <Modal modalRef={modalRef} formRef={formRef}>
+        {isPending && <UserApiLoading />}
         <div className="p-6">
           <h2 className="text-xl font-semibold mb-4">Change Password</h2>
           <form

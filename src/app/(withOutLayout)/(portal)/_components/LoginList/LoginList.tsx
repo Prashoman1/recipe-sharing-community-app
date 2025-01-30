@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import ForgetPassword from "../ForgetPassword/ForgetPassword";
+import UserApiLoading from "@/app/_components/shared/Loading/Loading";
 
 const LoginPage = () => {
   const [forget, setForget] = useState<boolean>(true);
@@ -44,6 +45,7 @@ const LoginPage = () => {
   }, [isPending, isSuccess, data?.success]);
   return (
     <>
+      {isPending && <UserApiLoading />}
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         {forget ? (
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -105,7 +107,10 @@ const LoginPage = () => {
             </div>
           </div>
         ) : (
-          <ForgetPassword setForget={setForget} forget={forget}></ForgetPassword>
+          <ForgetPassword
+            setForget={setForget}
+            forget={forget}
+          ></ForgetPassword>
         )}
       </div>
     </>

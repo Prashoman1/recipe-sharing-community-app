@@ -136,7 +136,7 @@ const RecipeList = () => {
                   <td>
                     <div className="flex items-center gap-2">
                       <Link
-                        href={`/dashboard/admin/recipe/edit/${recipe._id}`}
+                        href={`/dashboard/recipe/edit/${recipe._id}`}
                         className="bg-blue-500 text-white p-2 rounded-md"
                       >
                         Edit

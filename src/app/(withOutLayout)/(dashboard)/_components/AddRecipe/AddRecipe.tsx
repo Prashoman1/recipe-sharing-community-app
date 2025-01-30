@@ -2,13 +2,16 @@
 "use client";
 
 import UserApiLoading from "@/app/_components/shared/Loading/Loading";
+import { useHomeContext } from "@/context/Home.context";
 import { useCreateRecipe } from "@/hooks/useRecipe.hook";
 import { imageUploadImageBB } from "@/services/imageUpload";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const RecipeForm = () => {
+  const { user} = useHomeContext();
   const router = useRouter();
+  const [loading, setLoading]= useState(false)
   const {
     mutate: createRecipePost,
     isPending,
@@ -36,6 +39,7 @@ const RecipeForm = () => {
     if (form.image) {
       const payload = new FormData();
       payload.append("image", form.image);
+      setLoading(true)
       const updateImage: any = await imageUploadImageBB(payload);
       uploadImage = updateImage as string;
     }
@@ -46,7 +50,7 @@ const RecipeForm = () => {
       image: uploadImage,
     };
     // console.log({ insertValue });
-    
+    setLoading(false)
     createRecipePost(insertValue);
   };
 
@@ -62,13 +66,17 @@ const RecipeForm = () => {
         tags: [] as string[],
         premium: false,
       });
+      if(user?.role === "admin"){
       router.push("/dashboard/admin/managed-recipe");
+      }else{
+        router.push("/dashboard/user/my-recipes");
+      }
     }
   }, [isSuccess, router , data]);
 
   return (
     <>
-      {isPending && <UserApiLoading />}
+      {(isPending || loading) && <UserApiLoading />}
       <form
         className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg space-y-4"
         onSubmit={handleRecipeSubmit}

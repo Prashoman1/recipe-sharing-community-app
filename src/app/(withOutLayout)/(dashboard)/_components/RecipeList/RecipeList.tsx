@@ -49,7 +49,6 @@ const RecipeList = () => {
 
   const UpdateRecipePublishStatus = async (id: string) => {
     
-    
     const res = await RecipePublicUnPublishAPi(id);
     console.log(res);
     

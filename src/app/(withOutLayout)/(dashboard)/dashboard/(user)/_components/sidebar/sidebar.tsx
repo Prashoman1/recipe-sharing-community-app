@@ -13,14 +13,14 @@ const UserSideBar = () => {
           >
             <FiHome className="mr-2" size={20} /> Dashboard
           </Link>
-          <a
-            href="/my-recipes"
+          <Link
+            href="/dashboard/user/my-recipes"
             className="flex items-center text-gray-600 hover:text-emerald-600 transition"
           >
             <FiBookmark className="mr-2" size={20} /> My Recipes
-          </a>
+          </Link>
           <a
-            href="/profile"
+            href="/dashboard/user/profile"
             className="flex items-center text-gray-600 hover:text-emerald-600 transition"
           >
             <FiSettings className="mr-2" size={20} /> Manage Profile

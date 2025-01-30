@@ -64,3 +64,13 @@ export const getSingleRecipe = async (id: string) => {
     return error;
   }
 }
+
+export const getRecipesByUser = async () => {
+  try {
+    const response = await axiosInstance.get("/recipe/my-recipes");
+    revalidateTag("my-likes");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

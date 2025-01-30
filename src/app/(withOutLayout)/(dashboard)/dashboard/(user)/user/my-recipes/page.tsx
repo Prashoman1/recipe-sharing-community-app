@@ -1,10 +1,10 @@
-import RecipeList from '@/app/(withOutLayout)/(dashboard)/_components/RecipeList/RecipeList';
-import React from 'react';
+
+import UserRecipeList from '../../_components/UserRecipeList/UserRecipeList';
 
 const page = () => {
     return (
         <>
-            <RecipeList/>
+            <UserRecipeList/>
         </>
     );
 };

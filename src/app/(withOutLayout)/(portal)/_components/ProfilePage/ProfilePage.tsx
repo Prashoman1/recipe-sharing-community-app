@@ -13,6 +13,7 @@ import RecipeCardSkeleton from "../RecipeCardSkeleton/RecipeCardSkeleton";
 import ProfileSkeleton from "../ProfileSeleton/ProfileSkeleton";
 import { useHomeContext } from "@/context/Home.context";
 import { createFollowingUsers, deleteFollower } from "@/services/FollowApi";
+import MembershipButton from "../MemberShipButton/MemberShipButton";
 
 // import Image from "next/image";
 // import { CheckCircle, UserPlus } from "lucide-react";
@@ -65,7 +66,7 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
 
   useEffect(() => {
     fetchUserInfo();
-  }, [id,refetch]);
+  }, [id, refetch]);
 
   useEffect(() => {
     fetchThisUserRecipesPost();
@@ -77,7 +78,7 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
     );
     if (isFollowing) {
       setIsFollowing(true);
-    }else{
+    } else {
       setIsFollowing(false);
     }
   }, [myFollowingUsers, id]);
@@ -114,7 +115,7 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
     }
   };
 
-  console.log({ myFollowingUsers });
+  // console.log({ myFollowingUsers });
 
   return (
     <>
@@ -149,7 +150,7 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
                 {user?.address}
                 add
               </p>
-              <span className="inline-block mt-2 px-4 py-1 text-sm text-white bg-blue-500 rounded-full">
+              <span className="inline-block mt-2 px-4 py-1 text-sm text-white bg-green-500 rounded-full">
                 {user?.memberShip?.toUpperCase()} Member
               </span>
               <div className="flex gap-4 items-center justify-center pt-2 text-gray-700">
@@ -167,6 +168,9 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
                     <span>{follower?.length}</span>
                   </div>
                 </div>
+              </div>
+              <div className="pt-6">
+              {currentUser?._id === id && <MembershipButton />}
               </div>
             </div>
             {currentUser?._id !== id && (

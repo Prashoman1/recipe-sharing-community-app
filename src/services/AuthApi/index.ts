@@ -110,6 +110,15 @@ export const forgetPassword = async (data: any) => {
   }
 };
 
+export const getSingleUserByUserId = async (userId: string) => {
+  try {
+    const response = await axiosInstance.get(`auth/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
 
 
 

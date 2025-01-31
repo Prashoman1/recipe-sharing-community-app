@@ -74,3 +74,13 @@ export const getRecipesByUser = async () => {
     return error;
   }
 };
+
+export const getRecipesByUserId = async (userId: string) => {
+  try {
+    const response = await axiosInstance.get(`/recipe/${userId}`);
+    revalidateTag("my-likes");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

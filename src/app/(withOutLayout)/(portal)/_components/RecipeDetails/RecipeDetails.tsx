@@ -207,7 +207,7 @@ export default function RecipeDetails({ myRating }: TProps) {
             {comments?.map((cItem: any, index) => (
               <li key={index} className="border-b py-2 text-gray-700">
                 <>
-                  <Link href={"/"} className="flex items-center space-x-2">
+                  <Link href={`/profile/${cItem.user._id}`} className="flex items-center space-x-2">
                     {cItem?.user?.image ? (
                       <Image
                         src={cItem.user.image}

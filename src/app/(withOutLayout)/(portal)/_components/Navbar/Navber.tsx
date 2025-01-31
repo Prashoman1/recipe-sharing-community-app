@@ -4,10 +4,12 @@ import { FiSearch, FiUser, FiBookmark, FiHome } from "react-icons/fi";
 import Link from "next/link";
 
 import UserDropdown from "../UserDrowpDown/UserDropDown";
+import { useHomeContext } from "@/context/Home.context";
 // import Image from "next/image";
 
 const Navbar = () => {
-  
+  const { user } = useHomeContext();
+
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <nav className="container mx-auto flex items-center justify-between py-4 px-6">
@@ -41,21 +43,19 @@ const Navbar = () => {
           >
             <FiBookmark className="mr-1" size={18} /> Saved
           </Link>
-          <Link
-            href="/profile"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            Profile
-          </Link>
+          {user?._id && (
+            <Link
+              href={`/profile/${user._id}`}
+              className="flex items-center text-gray-600 hover:text-emerald-600 transition"
+            >
+              Profile
+            </Link>
+          )}
         </div>
 
         {/* Post Recipe Button */}
-        <div className="hidden sm:block">
-          <button className="bg-emerald-600 text-white rounded-full px-4 py-2 hover:bg-emerald-700">
-            Post Recipe
-          </button>
-        </div>
-        <UserDropdown/>
+
+        <UserDropdown />
 
         {/* Mobile Menu Icon */}
         <div className="md:hidden flex items-center space-x-4">

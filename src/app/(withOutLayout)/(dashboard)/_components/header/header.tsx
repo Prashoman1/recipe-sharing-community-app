@@ -9,19 +9,20 @@ import { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 
 const Header = () => {
- const { user} = useHomeContext();
+ const { user ,refreshUser, setRefreshUser} = useHomeContext();
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const handleLogout = async () => {
     const data = await logout();
     if (data) {
+      setRefreshUser(!refreshUser);
       router.push("/login");
     }
   };
   // console.log("header",user);
   return (
     <div>
-      <header className="bg-white shadow-md sticky top-0 z-50">
+      <header className="bg-white w-full shadow-md fixed left-0 top-0 z-50">
         <div className="container mx-auto flex justify-between items-center px-6 py-4">
           <div className="text-2xl font-bold text-emerald-600">
             <Link href="/">Recipe App Dashboard</Link>

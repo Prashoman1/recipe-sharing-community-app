@@ -7,9 +7,6 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    animation: {
-      'bounce-custom': 'bounce 1.5s infinite',
-    },
     extend: {
       colors: {
         background: "var(--background)",

@@ -14,6 +14,8 @@ const UserDropdown = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  // console.log("User dropdown", user);
+
   const handleLogout = async () => {
     const data = await logout();
     if (data) {
@@ -44,7 +46,7 @@ const UserDropdown = () => {
         <>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="btns flex items-center gap-2 rounded text-gray-500 px-4 py-1"
+            className="btns flex items-center gap-2 rounded text-gray-500 "
           >
             <Image
               src={
@@ -57,15 +59,17 @@ const UserDropdown = () => {
               alt="User Avatar"
               className="w-8 h-8 rounded-full"
             />
-            <span className="text-gray-600">{user?.userName || "Profile"}</span>
+            <span className="text-gray-600">
+              {user?.userName?.split(" ")[0] || "Profile"}
+            </span>
           </button>
 
           {isOpen && (
-            <ul className="absolute right-0 mt-2 bg-white rounded shadow-md w-44 p-2 z-50">
-              <li className="hover:text-white hover:bg-green-400 rounded">
+            <ul className="absolute right-0 mt-2 bg-white rounded shadow-md w-44 p-2 z-50 text-start space-y-2">
+              <li className="hover:text-white hover:bg-green-400 rounded px-3">
                 <Link href={`/dashboard/${user?.role}`}>Dashboard</Link>
               </li>
-              <li className="hover:text-white hover:bg-green-400 rounded">
+              <li className="hover:text-white hover:bg-green-400 rounded px-3">
                 <button onClick={() => handleLogout()}>Logout</button>
               </li>
             </ul>

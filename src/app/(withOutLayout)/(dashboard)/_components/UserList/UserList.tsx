@@ -2,8 +2,10 @@
 "use client";
 // import TableSkeleton from "@/app/_components/shared/Skeleton/Skeleton";
 import Table from "@/app/_components/shared/Table/Table";
+import { deleteUserByAdmin } from "@/services/UserApi";
 // import { deleteRecipeApi, RecipePublicUnPublishAPi } from "@/services/RecipeApi";
 import { TTableHeader } from "@/type";
+import { handleDelete } from "@/utils/handleDelete";
 // import { handleDelete } from "@/utils/handleDelete";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,39 +31,14 @@ const UserList = ({ users }: TUserListProps) => {
     { title: "ExpiryDate", key: "expiryDate" },
     { title: "Options", key: "options" },
   ];
-  //   const fetchRecipes = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const recipes = await getRecipesByAdmin();
-  //       setRecipes(recipes?.data);
-  //     } catch (error: any) {
-  //       console.log(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //   useEffect(() => {
-  //     fetchRecipes();
-  //   }, []);
 
-  //   const deleteRecipe = async (id: string) => {
-  //     const res = await handleDelete(id, deleteRecipeApi);
-  //     if (res) {
-  //       fetchRecipes();
-  //     }
-  //   };
-
-  //   const UpdateRecipePublishStatus = async (id: string) => {
-
-  //     const res = await RecipePublicUnPublishAPi(id);
-  //     console.log(res);
-
-  //     if (res?.success) {
-  //       fetchRecipes();
-  //       toast.success(res.message);
-  //     }
-  //   }
-
+  
+  const handleDeleteUser =async (id: string) => {
+     await handleDelete(id,deleteUserByAdmin);
+    
+  };
+  
+  
 
   return (
     <>
@@ -105,7 +82,8 @@ const UserList = ({ users }: TUserListProps) => {
                 <td>
                   <div className="flex items-center gap-2">
                     <button
-                      // onClick={() => deleteRecipe(recipe._id)}
+                    
+                      onClick={() => handleDeleteUser(item._id)}
                       // href={`/dashboard/admin/recipe/delete/${recipe._id}`}
                       className="bg-red-500 text-white p-2 rounded-md"
                     >

@@ -1,18 +1,33 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import TableSkeleton from "@/app/_components/shared/Skeleton/Skeleton";
 import Table from "@/app/_components/shared/Table/Table";
-import { deleteRecipeApi, getRecipesByAdmin, RecipePublicUnPublishAPi } from "@/services/RecipeApi";
+import {
+  deleteRecipeApi,
+  getRecipesByAdmin,
+  RecipePublicUnPublishAPi,
+} from "@/services/RecipeApi";
 import { TTableHeader } from "@/type";
 import { handleDelete } from "@/utils/handleDelete";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Pagination from "../Pagination/Pagination";
+import useDebounce from "@/hooks/debouces.hook";
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(6);
+  const [totalPages, setTotalPages] = useState<number | null>(null);
+  const [showPage, setShowPage] = useState(1);
+  const [searchRecipe, setSearchRecipe] = useState("");
+  
+  const searchTerm=useDebounce(searchRecipe);
+
   const tableHeadings: TTableHeader[] = [
     { title: "SI", key: "si" },
     { title: "Title", key: "title" },
@@ -21,15 +36,23 @@ const RecipeList = () => {
     { title: "Status", key: "status" },
     { title: "CookingTime", key: "cookingTime" },
     { title: "IsPremium", key: "premium" },
-    { title: "Ingredients", key: "ingredients" },
-    { title: "Tags", key: "tags" },
     { title: "Options", key: "options" },
   ];
   const fetchRecipes = async () => {
     try {
+      const query = {
+        page,
+        limit,
+        searchTerm
+      };
+      console.log({query});
+      
       setLoading(true);
-      const recipes = await getRecipesByAdmin();
-      setRecipes(recipes?.data);
+      const recipes = await getRecipesByAdmin(query);
+      const { meta } = recipes?.data;
+      setRecipes(recipes?.data?.result);
+      setTotalPages(meta.total);
+      setShowPage(meta.totalPage);
     } catch (error: any) {
       console.log(error);
     } finally {
@@ -38,7 +61,7 @@ const RecipeList = () => {
   };
   useEffect(() => {
     fetchRecipes();
-  }, []);
+  }, [page, searchTerm]);
 
   const deleteRecipe = async (id: string) => {
     const res = await handleDelete(id, deleteRecipeApi);
@@ -48,17 +71,14 @@ const RecipeList = () => {
   };
 
   const UpdateRecipePublishStatus = async (id: string) => {
-    
     const res = await RecipePublicUnPublishAPi(id);
     console.log(res);
-    
+
     if (res?.success) {
       fetchRecipes();
       toast.success(res.message);
     }
-  }
-
-  // console.log(recipes);
+  };
 
   return (
     <>
@@ -71,6 +91,14 @@ const RecipeList = () => {
           >
             Add Recipe
           </Link>
+        </div>
+        <div className="w-1/3 py-2">
+          <input
+            type="text"
+            onChange={(e) => setSearchRecipe(e.target.value)}
+            placeholder="Search Recipe by title"
+            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          />
         </div>
         <div className="w-full overflow-x-auto">
           {loading ? (
@@ -95,11 +123,7 @@ const RecipeList = () => {
                   <td>{recipe.category}</td>
                   <td>
                     <button
-                      onClick={() =>
-                        UpdateRecipePublishStatus(
-                          recipe?._id,
-                        )
-                      }
+                      onClick={() => UpdateRecipePublishStatus(recipe?._id)}
                       className={`relative w-14 h-6 rounded-full transition-colors duration-300 ${
                         recipe.isPublished ? "bg-green-500" : "bg-gray-400"
                       }`}
@@ -114,35 +138,15 @@ const RecipeList = () => {
                   <td>{recipe.cookingTime}</td>
                   <td>{recipe.isPremium ? "Premium" : "Free"}</td>
                   <td>
-                    {recipe.ingredients?.map(
-                      (ingredient: any, index: number) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <span>{ingredient}</span>
-                        </div>
-                      )
-                    )}
-                  </td>
-                  <td>
-                    {recipe.tags &&
-                      recipe.tags.map((tag: any, index: number) => (
-                        <span
-                          key={index}
-                          className="bg-gray-200 text-gray-600 px-2 py-1 rounded-md text-sm"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                  </td>
-                  <td>
                     <div className="flex items-center gap-2">
                       <Link
-                        href={`/dashboard/recipe/edit/${recipe._id}`}
+                        href={`/dashboard/admin/recipe/edit/${recipe._id}`}
                         className="bg-blue-500 text-white p-2 rounded-md"
                       >
                         Edit
                       </Link>
                       <Link
-                        href={`/dashboard/admin/recipe/view/${recipe._id}`}
+                        href={`/recipe/${recipe._id}`}
                         className="bg-green-500 text-white p-2 rounded-md"
                       >
                         View
@@ -160,6 +164,12 @@ const RecipeList = () => {
               ))}
             </Table>
           )}
+          
+          <Pagination
+            page={page}
+            setPage={setPage}
+            showPage={showPage}
+          />
         </div>
       </div>
     </>

@@ -16,9 +16,12 @@ export const createRecipe = async (data: any) => {
   }
 };
 
-export const getRecipesByAdmin = async () => {
+export const getRecipesByAdmin = async (query:any) => {
   try {
-    const response = await axiosInstance.get("/recipe/all");
+  
+    const response = await axiosInstance.get("/recipe/all",{
+      params:query
+    });
     revalidateTag("my-likes");
     return response.data;
   } catch (error) {
@@ -29,7 +32,7 @@ export const getRecipesByAdmin = async () => {
 export const RecipePublicUnPublishAPi = async (id: string) => {
   try {
     // console.log({id});
-    
+
     const response = await axiosInstance.put(`/recipe/publish/${id}`);
     return response.data;
   } catch (error) {
@@ -46,15 +49,16 @@ export const deleteRecipeApi = async (id: string) => {
   }
 };
 
-
-export const getAllPublicRecipes = async () => {
+export const getAllPublicRecipes = async (query: any) => {
   try {
-    const response = await axiosInstance.get("/recipe/get-all/public");
+    const response = await axiosInstance.get("/recipe/get-all/public", {
+      params: query,
+    });
     return response.data;
   } catch (error) {
     return error;
   }
-}
+};
 
 export const getSingleRecipe = async (id: string) => {
   try {
@@ -63,7 +67,7 @@ export const getSingleRecipe = async (id: string) => {
   } catch (error) {
     return error;
   }
-}
+};
 
 export const getRecipesByUser = async () => {
   try {
@@ -83,4 +87,13 @@ export const getRecipesByUserId = async (userId: string) => {
   } catch (error) {
     return error;
   }
-}
+};
+
+export const updateRecipe = async (id: string, data: any) => {
+  try {
+    const response = await axiosInstance.put(`/recipe/update/${id}`, data);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

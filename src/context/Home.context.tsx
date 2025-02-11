@@ -19,11 +19,15 @@ export const HomeContextProvider = ({
 
   const fetchTokenUserInfo = async () => {
     const userInfo = await currentUser();
+    // console.log("userInfo context", userInfo);
+    
     if (userInfo) {
       const userdata = await getMe();
       if (userdata?.success) {
         setUser(userdata?.data);
       }
+    }else{
+      setUser({});
     }
   };
 

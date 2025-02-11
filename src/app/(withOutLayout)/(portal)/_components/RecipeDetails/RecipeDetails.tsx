@@ -104,8 +104,8 @@ export default function RecipeDetails({ myRating }: TProps) {
 
   return (
     <div className="w-full mx-auto p-6 bg-white rounded-lg shadow-md px-16">
-      <div className="w-full flex items-center justify-between">
-        <div className="w-[30%]">
+      <div className="w-full inline-block lg:flex items-center justify-between">
+        <div className="w-full lg:w-[30%]">
           <Image
             src={
               recipe?.image ? recipe?.image : "/images/recipe-placeholder.jpg"
@@ -116,7 +116,7 @@ export default function RecipeDetails({ myRating }: TProps) {
             className="w-full h-64 object-cover rounded-lg"
           />
         </div>
-        <div className="w-[50%]">
+        <div className="w-full lg:w-[50%]">
           <h1 className="text-3xl font-bold mt-4">{recipe?.title}</h1>
 
           <p className="mt-2 text-sm text-gray-600">
@@ -139,8 +139,8 @@ export default function RecipeDetails({ myRating }: TProps) {
         </div>
       </div>
 
-      <div className="flex gap-5">
-        <div className="w-1/2">
+      <div className="inline-block lg:flex gap-5">
+        <div className="w-full lg:w-1/2">
           <div className="mt-4">
             <h2 className="text-xl font-semibold">Tags</h2>
             <div className="flex flex-wrap gap-2 mt-2">
@@ -182,7 +182,7 @@ export default function RecipeDetails({ myRating }: TProps) {
             )}
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-full lg:w-1/2">
           <p className="text-gray-700 mt-2">{recipe?.description}</p>
         </div>
       </div>

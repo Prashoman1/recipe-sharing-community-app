@@ -1,11 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import { getSingleRecipe, updateRecipe } from "@/services/RecipeApi";
+import { useParams, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { imageUploadImageBB } from "@/services/imageUpload";
+import { toast } from "react-toastify";
+import UserApiLoading from "@/app/_components/shared/Loading/Loading";
+import { useHomeContext } from "@/context/Home.context";
 
 const RecipeEdit = () => {
+   const { user} = useHomeContext();
   const { id } = useParams();
-  console.log(id);
-  
+  const [ingredientsList, setIngredientsList] = useState<string[]>(["1"]);
+  const [tagsList, setTagsList] = useState<string[]>(["1"]);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -14,15 +25,79 @@ const RecipeEdit = () => {
     cookingTime: "",
     category: "",
     tags: [] as string[],
-    premium: false,
   });
-  const [ingredientsList, setIngredientsList] = useState<string[]>(["1"]);
-  const [tagsList, setTagsList] = useState<string[]>(["1"]);
+
+  const fetchSingleRecipe = async () => {
+    const recipe = await getSingleRecipe(id as string);
+    setForm({
+      title: recipe?.data[0]?.title,
+      description: recipe?.data[0]?.description,
+      image: recipe?.data[0]?.image,
+      ingredients: recipe?.data[0]?.ingredients,
+      cookingTime: recipe?.data[0]?.cookingTime,
+      category: recipe?.data[0]?.category,
+      tags: recipe?.data[0]?.tags,
+    });
+    setIngredientsList(
+      Array.from({ length: recipe?.data[0]?.ingredients.length })
+    );
+    setTagsList(Array.from({ length: recipe?.data[0]?.tags.length }));
+  };
+
+  useEffect(() => {
+    fetchSingleRecipe();
+  }, [id]);
+
+  // console.log({ form });
+
+  const handleUpdateRecipe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // console.log(form);
+    setLoading(true);
+    let uploadImage: any = "";
+    if (form.image) {
+      const payload = new FormData();
+      payload.append("image", form.image);
+      // setLoading(true)
+      const updateImage: any = await imageUploadImageBB(payload);
+      uploadImage = updateImage as string;
+    }
+
+    const payload = {
+      title: form.title,
+      description: form.description,
+      image: uploadImage || form.image,
+      ingredients: form.ingredients,
+      cookingTime: form.cookingTime,
+      category: form.category,
+      tags: form.tags,
+    };
+    try {
+      const res = await updateRecipe(id as string, payload);
+      console.log(res);
+      if (res?.success) {
+        toast.success(res.message);
+        if(user?.role === "admin"){
+          router.push("/dashboard/admin/managed-recipe");
+        }else{
+          router.push("/dashboard/user/my-recipes");
+        }
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
+      {loading && <UserApiLoading />}
       <form
         className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg space-y-4"
-        // onSubmit={handleRecipeSubmit}
+        onSubmit={handleUpdateRecipe}
       >
         <h2 className="text-2xl font-bold">Create a Recipe</h2>
 
@@ -64,6 +139,22 @@ const RecipeEdit = () => {
 
         {/* Image */}
         <div>
+          <div>
+            {form.image && (
+              <Image
+                src={
+                  typeof form.image === "string"
+                    ? form.image
+                    : URL.createObjectURL(form.image)
+                }
+                alt="Recipe"
+                className="w-20 h-16 object-cover rounded"
+                width={500}
+                height={300}
+              />
+            )}
+          </div>
+
           <label className="block font-medium">Image</label>
           <input
             type="file"
@@ -237,23 +328,6 @@ const RecipeEdit = () => {
         </div>
 
         {/* Premium */}
-        <div>
-          <label className="block font-medium">Premium</label>
-          <select
-            value={form.premium ? "true" : "false"}
-            onChange={(e) => {
-              setForm({
-                ...form,
-                premium: e.target.value === "true",
-              });
-            }}
-            className="w-full border rounded p-2 mt-1"
-            required
-          >
-            <option value="false">Free</option>
-            <option value="true">Premium</option>
-          </select>
-        </div>
 
         {/* Submit Button */}
         <button

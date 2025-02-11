@@ -13,12 +13,13 @@ export default function RootLayout({
       <Header />
 
       {/* Main Content */}
-      <div className="flex flex-1">
-        {/* Sidebar */}
+      <div className="flex mt-20">
+      <div className="w-[20%]">
         <UserSideBar />
+        </div>
 
         {/* Main Content Area */}
-        <main className="flex-1 p-6 bg-gray-50">{children}</main>
+        <main className="w-[80%] bg-gray-50 min-h-screen px-10 py-6">{children}</main>
       </div>
 
       {/* Footer */}

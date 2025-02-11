@@ -70,7 +70,7 @@ const RegisterPage = () => {
     // };
   return (
     <>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex items-center justify-center py-9 lg:py-0 px-2 lg:px-0 lg:min-h-screen bg-gray-100">
         {/* {isPending && (
           <div className="absolute top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">

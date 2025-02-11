@@ -1,42 +1,50 @@
-import Link from "next/link";
+"use client";
+import SidebarLink from "@/app/(withOutLayout)/(dashboard)/_components/SideBarLink/SidebarLink";
+
 import React from "react";
+import { FaUsers } from "react-icons/fa";
 import { FiBookmark, FiHome, FiSettings } from "react-icons/fi";
+import { RiAdminLine } from "react-icons/ri";
 
 const AdminSidebar = () => {
   return (
     <>
-      <aside className="w-64 bg-gray-100 p-6 hidden md:block">
+      <aside className="w-64 bg-gray-300 h-screen max-h-screen overflow-scroll p-6 hidden md:block fixed left-0">
         <nav className="space-y-4">
-          <Link
+          <SidebarLink
             href="/dashboard/admin"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiHome className="mr-2" size={20} /> Dashboard
-          </Link>
-          <Link
+            icon={FiHome}
+            label="Dashboard"
+            activePaths={["/dashboard/admin"]}
+          />
+          <SidebarLink
             href="/dashboard/admin/managed-recipe"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiBookmark className="mr-2" size={20} /> Managed-Recipe
-          </Link>
-          <Link
+            icon={FiBookmark}
+            label="Managed Recipe"
+            activePaths={[
+              "/dashboard/admin/managed-recipe",
+              "/dashboard/admin/recipe/add",
+            ]}
+          />
+          <SidebarLink
             href="/dashboard/admin/manage-admin"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiBookmark className="mr-2" size={20} /> Managed Admin
-          </Link>
-          <Link
+            icon={RiAdminLine}
+            label="Managed Admin"
+            activePaths={["/dashboard/admin/manage-admin"]}
+          />
+          <SidebarLink
             href="/dashboard/admin/user-list"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiBookmark className="mr-2" size={20} /> User List
-          </Link>
-          <Link
+            icon={FaUsers}
+            label="User List"
+            activePaths={["/dashboard/admin/user-list"]}
+          />
+
+          <SidebarLink
             href="/dashboard/admin/profile"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiSettings className="mr-2" size={20} /> Manage Profile
-          </Link>
+            icon={FiSettings}
+            label="Manage Profile"
+            activePaths={["/dashboard/admin/profile"]}
+          />
         </nav>
       </aside>
     </>

@@ -1,5 +1,5 @@
 import React from 'react';
-import RegisterPage from '../_components/registerList/RegisterList';
+import RegisterPage from '../(withOutLayout)/(portal)/_components/registerList/RegisterList';
 
 const page = () => {
     return (

@@ -8,7 +8,7 @@ const page = async() => {
     });
     return (
         <>
-            <UserList users={userData?.data} />
+            <UserList users={userData?.data?.result} />
         </>
     );
 };

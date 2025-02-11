@@ -16,8 +16,10 @@ export const loginApi = async (userData: any) => {
     const cookieStore = await cookies();
     cookieStore.set("token", response?.data?.token, { secure: true });
     return response.data;
-  } catch (error) {
-    return error;
+  } catch (error:any) {
+    throw error.response
+    ? new Error(error.response.data.message || "Login failed")
+    : new Error("Network error or API not reachable");
   }
 };
 
@@ -113,6 +115,17 @@ export const forgetPassword = async (data: any) => {
 export const getSingleUserByUserId = async (userId: string) => {
   try {
     const response = await axiosInstance.get(`auth/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}
+
+export const getAllUsersInSystems = async (query:any) => {
+  try {
+    const response = await axiosInstance.get("/auth/users/both",{
+      params: query
+    });
     return response.data;
   } catch (error) {
     return error;

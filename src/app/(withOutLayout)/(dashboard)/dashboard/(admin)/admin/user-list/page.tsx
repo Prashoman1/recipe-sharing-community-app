@@ -7,7 +7,7 @@ const page = async () => {
   });
   return (
     <div>
-      <UserList users={systemUser?.data} />
+      <UserList users={systemUser?.data?.result} />
     </div>
   );
 };

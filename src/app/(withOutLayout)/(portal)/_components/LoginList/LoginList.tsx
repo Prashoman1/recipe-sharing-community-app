@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useHomeContext } from "@/context/Home.context";
 import { useUserLogin } from "@/hooks/useAuth.hook";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import ForgetPassword from "../ForgetPassword/ForgetPassword";
 import UserApiLoading from "@/app/_components/shared/Loading/Loading";
 
 const LoginPage = () => {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect_url");
   const [forget, setForget] = useState<boolean>(true);
   const { refreshUser, setRefreshUser } = useHomeContext();
   const { mutate: loginUser, isPending, isSuccess, data } = useUserLogin();
@@ -18,10 +21,16 @@ const LoginPage = () => {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm();
+    reset,
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
   const handleLoginSubmit = async (data: FieldValues) => {
-    console.log(data);
+    // console.log(data);
     const { email, password } = data;
     const userData = {
       email,
@@ -33,22 +42,58 @@ const LoginPage = () => {
   useEffect(() => {
     if (!isPending && isSuccess && data?.success) {
       if (data.success) {
-        if (data.data.role === "admin") {
-          router.push("/dashboard/admin");
+        if (redirect) {
+          router.push(redirect);
           setRefreshUser(!refreshUser);
         } else {
-          router.push("/dashboard/user");
-          setRefreshUser(!refreshUser);
+          if (data.data.role === "admin") {
+            router.push("/dashboard/admin");
+            setRefreshUser(!refreshUser);
+          } else {
+            router.push("/dashboard/user");
+            setRefreshUser(!refreshUser);
+          }
         }
       }
     }
   }, [isPending, isSuccess, data?.success]);
+
+  const handleAdminCredentials = () => {
+    const adminData = {
+      email: "admin@gmail.com",
+      password: "12345678",
+    };
+    reset(adminData);
+  };
+
+  const handleUserCredentials = () => {
+    const userData = {
+      email: "badhonchakrabarti100823@gmail.com",
+      password: "12345678",
+    };
+    reset(userData);
+  };
+
   return (
     <>
       {isPending && <UserApiLoading />}
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex items-center justify-center py-6 lg:py-0 px-2 lg:px-0 lg:min-h-screen bg-gray-100">
         {forget ? (
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <div className="flex items-center justify-center mb-4 gap-3">
+              <button
+                onClick={handleAdminCredentials}
+                className="text-xs bg-green-900 px-2 py-1 rounded-md text-white hover:bg-green-600"
+              >
+                Admin Credentials
+              </button>
+              <button
+                onClick={handleUserCredentials}
+                className="text-xs bg-green-900 px-2 py-1 rounded-md text-white hover:bg-green-600"
+              >
+                User Credentials
+              </button>
+            </div>
             <h2 className="text-2xl font-bold text-green-600 text-center mb-6">
               Login
             </h2>
@@ -118,3 +163,5 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+

@@ -44,7 +44,7 @@ const UserRecipeList = () => {
     }
   };
 
-  console.log(recipes);
+  // console.log(recipes);
 
   return (
     <>
@@ -52,7 +52,7 @@ const UserRecipeList = () => {
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-2xl font-semibold">Recipe List</h1>
           <Link
-            href="/dashboard/admin/recipe/add"
+            href="/dashboard/user/recipe/add"
             className="bg-blue-500 text-white p-2 rounded-md"
           >
             Add Recipe
@@ -81,7 +81,11 @@ const UserRecipeList = () => {
                     </td>
                     <td>{recipe.category}</td>
                     <td>
-                      <span className={`${recipe.isPublished ? "bg-green-700":"bg-gray-600"} text-white p-2 rounded-md`}>
+                      <span
+                        className={`${
+                          recipe.isPublished ? "bg-green-700" : "bg-gray-600"
+                        } text-white p-2 rounded-md`}
+                      >
                         {recipe.isPublished ? "Published" : "Unpublished"}
                       </span>
                     </td>
@@ -90,13 +94,13 @@ const UserRecipeList = () => {
                     <td>
                       <div className="flex items-center gap-2">
                         <Link
-                          href={`/dashboard/recipe/edit/${recipe._id}`}
+                          href={`/dashboard/user/recipe/edit/${recipe._id}`}
                           className="bg-blue-500 text-white p-2 rounded-md"
                         >
                           Edit
                         </Link>
                         <Link
-                          href={`/dashboard/admin/recipe/view/${recipe._id}`}
+                          href={`/recipe/${recipe._id}`}
                           className="bg-green-500 text-white p-2 rounded-md"
                         >
                           View

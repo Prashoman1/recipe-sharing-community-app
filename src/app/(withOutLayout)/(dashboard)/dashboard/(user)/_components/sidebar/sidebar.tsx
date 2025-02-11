@@ -1,30 +1,38 @@
-import Link from "next/link";
+"use client";
+import SidebarLink from "@/app/(withOutLayout)/(dashboard)/_components/SideBarLink/SidebarLink";
 import React from "react";
 import { FiBookmark, FiHome, FiSettings } from "react-icons/fi";
 
 const UserSideBar = () => {
   return (
     <>
-      <aside className="w-64 bg-gray-100 p-6 hidden md:block">
+      <aside className="w-64 bg-gray-300 h-screen max-h-screen overflow-scroll p-6 hidden md:block fixed left-0">
         <nav className="space-y-4">
-          <Link
+          <SidebarLink
             href="/dashboard/user"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiHome className="mr-2" size={20} /> Dashboard
-          </Link>
-          <Link
+            icon={FiHome}
+            label="Dashboard"
+            activePaths={[
+              "/dashboard/user",
+            ]}
+          />
+          <SidebarLink
             href="/dashboard/user/my-recipes"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiBookmark className="mr-2" size={20} /> My Recipes
-          </Link>
-          <a
+            icon={FiBookmark}
+            label="My Recipes"
+            activePaths={[
+              "/dashboard/user/my-recipes",
+            ]}
+          />
+          
+          <SidebarLink
             href="/dashboard/user/profile"
-            className="flex items-center text-gray-600 hover:text-emerald-600 transition"
-          >
-            <FiSettings className="mr-2" size={20} /> Manage Profile
-          </a>
+            icon={FiSettings}
+            label="Manage Profile"
+            activePaths={[
+              "/dashboard/user/profile",
+            ]}
+          />
         </nav>
       </aside>
     </>

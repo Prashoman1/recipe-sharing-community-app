@@ -4,6 +4,8 @@ import axiosInstance from "@/lib/providers/AxiosInstance";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
+
+// get all admin api
 export const getUserList = async () => {
   try {
     const cookieStore = await cookies();
@@ -28,6 +30,8 @@ export const getUserList = async () => {
     return error;
   }
 };
+
+// get all system user api
 export const getSystemUserList = async () => {
   try {
     const cookieStore = await cookies();
@@ -52,6 +56,18 @@ export const getSystemUserList = async () => {
     return error;
   }
 };
+
+export const deleteUserByAdmin = async (id: string) => {
+  try {
+    const res = await axiosInstance.delete(`/auth/user/${id}`);
+    revalidateTag("user-list");
+    revalidateTag("users");
+    return res.data;
+  } catch (error:any) {
+    throw new Error(error);
+  }
+}
+
 
 export const createAdmin = async (data: any) => {
     try {

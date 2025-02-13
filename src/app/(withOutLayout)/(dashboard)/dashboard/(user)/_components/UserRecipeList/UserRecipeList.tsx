@@ -52,7 +52,7 @@ const UserRecipeList = () => {
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-2xl font-semibold">Recipe List</h1>
           <Link
-            href="/dashboard/user/recipe/add"
+            href="/Dashboard/user/recipe/add"
             className="bg-blue-500 text-white p-2 rounded-md"
           >
             Add Recipe

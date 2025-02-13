@@ -18,4 +18,7 @@ export default {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('daisyui'),
   ],
+  daisyui: {
+    themes: ["light", "dark", "cupcake"],
+  },
 } satisfies Config;

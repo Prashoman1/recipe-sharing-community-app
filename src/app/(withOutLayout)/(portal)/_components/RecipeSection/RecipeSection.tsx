@@ -8,6 +8,9 @@ import RecipeCard from "../RecipeCard/RecipeCard";
 import RecipeCardSkeleton from "../RecipeCardSkeleton/RecipeCardSkeleton";
 import { FiSearch } from "react-icons/fi";
 import useDebounce from "@/hooks/debouces.hook";
+// import HomeSideBar from "@/components/ui/Home/Sidebar/sidebar";
+import TrendingRecipes from "@/app/_components/shared/Tending/Tending";
+import CreatePostBox from "@/app/_components/shared/CreateRecipeByAny/CreateRecipe";
 
 const RecipeSection = ({ myLikes }: { myLikes: any }) => {
   const [recipes, setRecipes] = useState([]);
@@ -37,38 +40,41 @@ const RecipeSection = ({ myLikes }: { myLikes: any }) => {
   // console.log(recipes);
 
   return (
-    <div className="px-14">
-      <div className="flex items-center justify-center py-2 mt-8 sm:px-9 lg:px-1">
-        <div className="relative w-11/12 lg:w-1/3">
-          <input
-            type="text"
-            placeholder="Search recipes..."
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-full border border-gray-300 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
-          />
-          <FiSearch
-            className="absolute top-2 right-3 text-gray-400"
-            size={20}
-          />
+    <div className="flex">
+      {/* Middle Section (Posts) */}
+      <div className="w-full md:w-1/2 lg:w-[65%] px-4">
+        <CreatePostBox />
+        {/* Post Feed */}
+        <div className="mt-6 space-y-6">
+          {loading && <RecipeCardSkeleton />}
+          {recipes?.map((recipe: any) => {
+            const isLiked = myLikes?.find(
+              (like: any) => like.recipe === recipe._id
+            );
+            return (
+              <RecipeCard
+                key={recipe._id}
+                recipe={recipe}
+                refetch={refetch}
+                setRefetch={setRefetch}
+                isLiked={isLiked}
+                user={recipe?.user}
+              />
+            );
+          })}
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6  lg:mt-16">
-        {loading && <RecipeCardSkeleton />}
-        {recipes?.map((recipe: any) => {
-          const isLiked = myLikes?.find(
-            (like: any) => like.recipe === recipe._id
-          );
 
-          return (
-            <RecipeCard
-              key={recipe._id}
-              recipe={recipe}
-              refetch={refetch}
-              setRefetch={setRefetch}
-              isLiked={isLiked}
-            />
-          );
-        })}
+      {/* Right Sidebar */}
+      <div className="hidden md:block md:w-1/4 lg:w-[35%] p-4 border-l ">
+        <div className="sticky top-[15%]">
+          <div className="max-h-[calc(100vh-50vh)] group overflow-hidden hover:overflow-y-auto transition-all duration-300 pb-5 custom-scrollbar">
+            <TrendingRecipes />
+          </div>
+          <div className="max-h-[calc(100vh-70vh)] top-[20%] group overflow-hidden hover:overflow-y-auto transition-all duration-300 pb-5 custom-scrollbar mt-5">
+            <TrendingRecipes />
+          </div>
+        </div>
       </div>
     </div>
   );

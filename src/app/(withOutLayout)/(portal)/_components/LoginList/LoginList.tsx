@@ -46,13 +46,8 @@ const LoginPage = () => {
           router.push(redirect);
           setRefreshUser(!refreshUser);
         } else {
-          if (data.data.role === "admin") {
-            router.push("/dashboard/admin");
-            setRefreshUser(!refreshUser);
-          } else {
-            router.push("/dashboard/user");
-            setRefreshUser(!refreshUser);
-          }
+          router.push("/");
+          setRefreshUser(!refreshUser);
         }
       }
     }
@@ -163,5 +158,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-

@@ -3,34 +3,32 @@
 
 import { currentUser } from "@/services/AuthApi";
 import { createLikeByRecipe, deleteLikeByRecipe } from "@/services/likeApi";
-import { ArrowRight, Star, ThumbsUp } from "lucide-react";
+import { ThumbsUp, MessageSquare, CheckCircle, MoreVertical } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 type TRecipeProps = {
   recipe: any;
-  key: any;
   refetch: any;
   setRefetch: any;
   isLiked: any;
+  user:any
 };
 
-const RecipeCard = ({ recipe, refetch, setRefetch, isLiked }: TRecipeProps) => {
-  // Check if the recipe is premium and if the user has access
+const RecipeCard = ({ recipe, refetch, setRefetch, isLiked,user }: TRecipeProps) => {
   const router = useRouter();
 
   const handleClickLike = async (id: string) => {
     if (id) {
       const user = await currentUser();
       if (!user) {
-        toast.warning("You need to login to like a recipe");
+        toast.warning("You need to login to like a post");
         return router.push("/login");
       }
       const response = await createLikeByRecipe({ recipeId: id });
-      // console.log({response});
       if (response?.success) {
         setRefetch(!refetch);
       }
@@ -41,106 +39,117 @@ const RecipeCard = ({ recipe, refetch, setRefetch, isLiked }: TRecipeProps) => {
     if (id) {
       const user = await currentUser();
       if (!user) {
-        toast.warning("You need to login to like a recipe");
+        toast.warning("You need to login to like a post");
         return router.push("/login");
       }
       const response = await deleteLikeByRecipe(id);
-      // console.log({response});
       if (response?.success) {
         setRefetch(!refetch);
       }
     }
   };
 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Handle clicks outside the menu
+  useEffect(() => {
+    const handleClickOutside = (event:any) => {
+      if (menuRef.current && !menuRef.current?.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md p-4 w-full">
+      {/* Author Info */}
+      <div className="flex items-center justify-between gap-3 mb-3 relative">
+      {/* User Info */}
+      <div className="flex items-center gap-3">
+        <Image
+          src={user?.
+            profileImage
+            || "https://i.ibb.co.com/K0wG22V/307ce493-b254-4b2d-8ba4-d12c080d6651.jpg"}
+          alt={user?.userName || "User"}
+          width={40}
+          height={40}
+          className="rounded-full w-10 h-10 object-cover"
+        />
+        <div>
+          <div className="flex items-center gap-1">
+            <span className="font-semibold">{user?.userName}</span>
+            {user?.isVerified && <CheckCircle className="text-blue-500 w-4 h-4" />}
+          </div>
+          <span className="text-sm text-gray-500">{recipe?.createdAt}</span>
+        </div>
+      </div>
+
+      {/* Three-dot menu */}
+      <div className="relative" ref={menuRef}>
+        <button onClick={() => setMenuOpen(!menuOpen)}>
+          <MoreVertical className="w-5 h-5 text-gray-600 cursor-pointer hover:text-gray-800" />
+        </button>
+
+        {/* Dropdown Menu */}
+        {menuOpen && (
+          <div className="absolute right-0 z-40 mt-2 w-40 bg-white border rounded-lg shadow-md p-2">
+            <button className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100">View Profile</button>
+            <button className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100">Follow</button>
+            <button className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100">Report</button>
+          </div>
+        )}
+      </div>
+    </div>
+    <div>
+      <h1>{recipe?.title}</h1>
+    </div>
+
       {/* Recipe Image */}
       <div className="relative">
         <Image
           src={recipe.image}
           alt={recipe.title}
-          width={400}
-          height={200}
-          className="w-full h-48 object-cover"
+          width={500}
+          height={300}
+          className="w-full h-64 object-cover rounded-lg"
         />
-        {recipe.isPremium && (
-          <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
-            <span className="text-white font-semibold">Premium Content</span>
-          </div>
-        )}
       </div>
 
-      {/* Recipe Info */}
-      <div className="p-4">
-        <h3 className="text-lg font-bold">{recipe.title}</h3>
+      {/* Post Description */}
+      <div className="mt-3">
+        <p className="text-gray-700 text-sm line-clamp-3">{recipe.description}</p>
+      </div>
 
-        {/* Rating */}
-        <div className="flex items-center text-yellow-500 mt-2">
-          {recipe.averageRating !== null ? (
-            <>
-              {[...Array(5)].map((_, index) => (
-                <Star
-                  key={index}
-                  className={`w-5 h-5 ${
-                    index < recipe.averageRating
-                      ? "fill-current"
-                      : "text-gray-300"
-                  }`}
-                />
-              ))}
-              <span className="ml-2 text-sm text-gray-600">
-                {recipe.averageRating.toFixed(1)}
-              </span>
-            </>
-          ) : (
-            <span className="text-gray-500">No ratings yet</span>
-          )}
-        </div>
-
-        {/* Free or Premium Tag */}
-        <div className="flex items-center justify-between mt-3">
-          {isLiked ? (
-            <span
-              onClick={() => {
-                handleDislike(recipe._id);
-              }}
-              className="cursor-pointer flex items-center gap-1 text-gray-600"
-            >
-              <ThumbsUp className="text-blue-500" />
-              {recipe.likes}
-            </span>
-          ) : (
-            <span
-              onClick={() => {
-                handleClickLike(recipe._id);
-              }}
-              className="cursor-pointer flex items-center gap-1 text-gray-600"
-            >
-              <ThumbsUp className="tex-blue" />
-              {recipe.likes}
-            </span>
-          )}
-          {/* <span
-          onClick={()=>{
-            handleClickLike(recipe._id)
-          }}
-           className="cursor-pointer flex items-center gap-1 text-gray-600">
-            <ThumbsUp className="tex-blue" />
-            {recipe.likes}
-          </span> */}
+      {/* Actions (Like & Comment) */}
+      <div className="flex items-center justify-between mt-3 text-gray-600">
+        <div className="flex items-center gap-4">
+          {/* Like Button */}
           <span
-            className={`px-3 py-1 text-xs rounded-md ${
-              recipe.isPremium
-                ? "bg-yellow-100 text-yellow-600"
-                : "bg-green-100 text-green-600"
-            }`}
+            onClick={() =>
+              isLiked ? handleDislike(recipe._id) : handleClickLike(recipe._id)
+            }
+            className="cursor-pointer flex items-center gap-1 hover:text-blue-500"
           >
-            {recipe.isPremium ? "Premium" : "Free"}
+            <ThumbsUp className={`${isLiked ? "text-blue-500" : ""}`} />
+            {recipe.likes}
           </span>
-          <Link href={`/recipe/${recipe._id}`}>
-            <ArrowRight className="text-green-600 font-bold" />
+
+          {/* Comment Button */}
+          <Link href={`/recipe/${recipe._id}`} className="flex items-center gap-1 hover:text-green-500">
+            <MessageSquare />
+            {recipe.comments || 0}
           </Link>
         </div>
+
+        {/* View Full Post */}
+        <Link href={`/recipe/${recipe._id}`} className="text-green-600 text-sm font-semibold">
+          View Details
+        </Link>
       </div>
     </div>
   );

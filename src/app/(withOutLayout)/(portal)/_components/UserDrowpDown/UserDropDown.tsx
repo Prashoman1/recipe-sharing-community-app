@@ -66,9 +66,7 @@ const UserDropdown = () => {
 
           {isOpen && (
             <ul className="absolute right-0 mt-2 bg-white rounded shadow-md w-44 p-2 z-50 text-start space-y-2">
-              <li className="hover:text-white hover:bg-green-400 rounded px-3">
-                <Link href={`/dashboard/${user?.role}`}>Dashboard</Link>
-              </li>
+              
               <li className="hover:text-white hover:bg-green-400 rounded px-3">
                 <button onClick={() => handleLogout()}>Logout</button>
               </li>

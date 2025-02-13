@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { FiSearch, FiHome, FiInfo } from "react-icons/fi";
+import {  FiHome  } from "react-icons/fi";
 import Link from "next/link";
 
 import UserDropdown from "../UserDrowpDown/UserDropDown";
-import { useHomeContext } from "@/context/Home.context";
-import { UserPen, Users } from "lucide-react";
+// import { useHomeContext } from "@/context/Home.context";
+// import {  Users } from "lucide-react";
 import Logo from "../../../../../../public/images/logo.jpg";
 import Image from "next/image";
 import ResponsiveBar from "../ResponsiveBar/ResponsiveBar";
@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 // import Image from "next/image";
 
 const Navbar = () => {
-  const { user } = useHomeContext();
+  // const { user } = useHomeContext();
   const pathName = usePathname();
 
   return (
@@ -44,21 +44,10 @@ const Navbar = () => {
               pathName === "/" ? "text-emerald-600" : "text-gray-600"
             }`}
           >
-            <FiHome className="mr-1" size={18} /> Home
+            <FiHome className="mr-1 w-10 h-8"  /> 
           </Link>
-          {user?._id && (
+          {/* {user?._id && (
             <>
-              <Link
-                href={`/profile/${user._id}`}
-                className={`flex items-center  hover:text-emerald-600 transition ${
-                  pathName?.includes("/profile")
-                    ? "text-emerald-600"
-                    : "text-gray-600"
-                }`}
-              >
-                <UserPen className="mr-1" size={18} />
-                Profile
-              </Link>
               <Link
                 href={`/all-users`}
                 className={`flex items-center  hover:text-emerald-600 transition ${
@@ -71,31 +60,9 @@ const Navbar = () => {
                 All User
               </Link>
 
-              <Link
-                href={`/contact-us`}
-                className={`flex items-center  hover:text-emerald-600 transition ${
-                  pathName === "/contact-us"
-                    ? "text-emerald-600"
-                    : "text-gray-600"
-                }`}
-              >
-                <FiSearch className="mr-2" size={18} />
-                Contact Us
-              </Link>
-
-              <Link
-                href={`/about-us`}
-                className={`flex items-center  hover:text-emerald-600 transition ${
-                  pathName === "/about-us"
-                    ? "text-emerald-600"
-                    : "text-gray-600"
-                }`}
-              >
-                <FiInfo className="mr-2" size={18} />
-                About Us
-              </Link>
+              
             </>
-          )}
+          )} */}
         </div>
 
         {/* Post Recipe Button */}

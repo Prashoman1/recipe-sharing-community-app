@@ -213,6 +213,7 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
                 refetch={refetch}
                 setRefetch={setRefetch}
                 isLiked={isLiked}
+                user={user}
               />
             );
           })}

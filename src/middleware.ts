@@ -51,7 +51,7 @@ export const config = {
     "/",
     "/login",
     "/signup",
-    "/dashboard/admin/:page*",
-    "/dashboard/user/:page*"
+    "/Dashboard/admin/:page*",
+    "/Dashboard/user/:page*"
   ],
 };

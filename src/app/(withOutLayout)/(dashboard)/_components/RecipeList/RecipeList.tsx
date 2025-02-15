@@ -139,12 +139,12 @@ const RecipeList = () => {
                   <td>{recipe.isPremium ? "Premium" : "Free"}</td>
                   <td>
                     <div className="flex items-center gap-2">
-                      <Link
+                      {/* <Link
                         href={`/dashboard/admin/recipe/edit/${recipe._id}`}
                         className="bg-blue-500 text-white p-2 rounded-md"
                       >
                         Edit
-                      </Link>
+                      </Link> */}
                       <Link
                         href={`/recipe/${recipe._id}`}
                         className="bg-green-500 text-white p-2 rounded-md"

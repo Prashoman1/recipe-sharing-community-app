@@ -18,8 +18,8 @@ export const handleDelete = async (id: string, deleteUrl: any) => {
   if (result.isConfirmed) {
     try {
       const deleteResponse = await deleteUrl(id); 
-    //   console.log(deleteResponse);
-      if (deleteResponse) {
+      // console.log(deleteResponse);
+      if (deleteResponse?.success) {
         toast.success(deleteResponse.message);
         return deleteResponse;
       } else {

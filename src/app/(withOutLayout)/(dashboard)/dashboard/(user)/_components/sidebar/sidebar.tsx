@@ -1,7 +1,7 @@
 "use client";
 import SidebarLink from "@/app/(withOutLayout)/(dashboard)/_components/SideBarLink/SidebarLink";
 import React from "react";
-import { FiBookmark, FiHome, FiInfo, FiSettings } from "react-icons/fi";
+import { FiBookmark, FiHome, FiInfo, FiSettings, FiTag } from "react-icons/fi";
 
 import "./style.css";
 import { useHomeContext } from "@/context/Home.context";
@@ -13,7 +13,7 @@ import { FaUsers } from "react-icons/fa";
 const UserSideBar = () => {
   const { user } = useHomeContext();
 
-  console.log({user});
+  // console.log({user});
   
   return (
     <>
@@ -40,44 +40,56 @@ const UserSideBar = () => {
           {user?.role === "admin" ? (
             <>
               <SidebarLink
-                href="/Dashboard/admin"
-                icon={FiHome}
-                label="Dashboard"
-                activePaths={["/Dashboard/Admin"]}
+              href="/Dashboard/admin"
+              icon={FiHome}
+              label="Dashboard"
+              activePaths={["/Dashboard/admin"]}
               />
               <SidebarLink
-                href="/Dashboard/admin/my-recipes"
-                icon={FiBookmark}
-                label="My Recipes"
-                activePaths={["/dashboard/Admin/my-recipes"]}
+              href="/Dashboard/admin/category"
+              icon={FiBookmark} 
+              label="Category"
+              activePaths={["/Dashboard/admin/category"]}
               />
               <SidebarLink
-                href="/Dashboard/admin/profile"
-                icon={FiSettings}
-                label="Manage Profile"
-                activePaths={["/Dashboard/Admin/profile"]}
+              href="/Dashboard/admin/tag"
+              icon={FiTag} 
+              label="Tags"
+              activePaths={["/Dashboard/admin/tag"]}
+              />
+              {/* <SidebarLink
+              href="/Dashboard/admin/my-recipes"
+              icon={FiBookmark}
+              label="My Recipes"
+              activePaths={["/dashboard/Admin/my-recipes"]}
+              /> */}
+              <SidebarLink
+              href="/Dashboard/admin/profile"
+              icon={FiSettings}
+              label="Manage Profile"
+              activePaths={["/Dashboard/Admin/profile"]}
               />
               <SidebarLink
-            href="/dashboard/admin/managed-recipe"
-            icon={FiBookmark}
-            label="Managed Recipe"
-            activePaths={[
-              "/dashboard/admin/managed-recipe",
-              "/dashboard/admin/recipe/add",
-            ]}
-          />
-          <SidebarLink
-            href="/dashboard/admin/manage-admin"
-            icon={RiAdminLine}
-            label="Managed Admin"
-            activePaths={["/dashboard/admin/manage-admin"]}
-          />
-          <SidebarLink
-            href="/dashboard/admin/user-list"
-            icon={FaUsers}
-            label="User List"
-            activePaths={["/dashboard/admin/user-list"]}
-          />
+              href="/Dashboard/admin/managed-recipe"
+              icon={FiBookmark}
+              label="Managed Recipe"
+              activePaths={[
+                "/Dashboard/admin/managed-recipe",
+                "/Dashboard/admin/recipe/add",
+              ]}
+              />
+              <SidebarLink
+              href="/Dashboard/admin/manage-admin"
+              icon={RiAdminLine}
+              label="Managed Admin"
+              activePaths={["/Dashboard/admin/manage-admin","Dashboard/admin/manage-admin/add"]}
+              />
+              <SidebarLink
+              href="/Dashboard/admin/user-list"
+              icon={FaUsers}
+              label="User List"
+              activePaths={["/Dashboard/admin/user-list"]}
+              />
             </>
           ) : (
             <>

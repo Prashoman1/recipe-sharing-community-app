@@ -42,7 +42,7 @@ const UserList = ({ users }: TUserListProps) => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full py-10 px-4">
         {pathName.endsWith("user-list") ? (
           <div className="flex justify-between items-start pb-4">
             <h1 className="text-2xl font-semibold">User List</h1>
@@ -51,7 +51,7 @@ const UserList = ({ users }: TUserListProps) => {
           <div className="flex justify-between items-center pb-4">
             <h1 className="text-2xl font-semibold">Admin List</h1>
             <Link
-              href="/dashboard/admin/manage-admin/add"
+              href="/Dashboard/admin/manage-admin/add"
               className="bg-blue-500 text-white p-2 rounded-md"
             >
               Add Admin

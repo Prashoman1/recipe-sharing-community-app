@@ -11,8 +11,10 @@ import useDebounce from "@/hooks/debouces.hook";
 // import HomeSideBar from "@/components/ui/Home/Sidebar/sidebar";
 import TrendingRecipes from "@/app/_components/shared/Tending/Tending";
 import CreatePostBox from "@/app/_components/shared/CreateRecipeByAny/CreateRecipe";
+import { useHomeContext } from "@/context/Home.context";
 
 const RecipeSection = ({ myLikes }: { myLikes: any }) => {
+  const {user} = useHomeContext();
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refetch, setRefetch] = useState(false);
@@ -22,6 +24,7 @@ const RecipeSection = ({ myLikes }: { myLikes: any }) => {
   const [limit, setLimit] = useState();
 
   const searchTerm = useDebounce(search);
+  
 
   const fetchRecipes = async () => {
     const query = {
@@ -48,8 +51,8 @@ const RecipeSection = ({ myLikes }: { myLikes: any }) => {
         <div className="mt-6 space-y-6">
           {loading && <RecipeCardSkeleton />}
           {recipes?.map((recipe: any) => {
-            const isLiked = myLikes?.find(
-              (like: any) => like.recipe === recipe._id
+            const isLiked = recipe?.userLiked?.find(
+              (like: any) => like === user?._id
             );
             return (
               <RecipeCard

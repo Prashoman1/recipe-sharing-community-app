@@ -1,5 +1,6 @@
+import AdminInsertForm from '@/app/(withOutLayout)/(dashboard)/dashboard/(admin)/_components/adminForm/AdminForm';
 import React from 'react';
-import AdminInsertForm from '../../../_components/adminForm/AdminForm';
+
 
 const page = () => {
     return (

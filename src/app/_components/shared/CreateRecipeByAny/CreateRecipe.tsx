@@ -1,14 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useHomeContext } from "@/context/Home.context";
 import Image from "next/image";
 // import { FaVideo, FaRegSmile } from "react-icons/fa";
 import { MdPhotoLibrary } from "react-icons/md";
+import CreateRecipeModal from "../CreateRecipe/CreateRecipe";
+import { useRef, useState } from "react";
+import { modelOpen } from "@/helpers";
+
 
 const CreatePostBox = () => {
      const { user } = useHomeContext();
+     const createRecipeRef = useRef(null);
+     const [state, setState] = useState<any>(false);
+
+     const handleModelClick = () => {
+      modelOpen(createRecipeRef);
+      setState(!state);
+      }
 
   return (
+   <>
     <div className="bg-white shadow-md rounded-lg p-4 w-full">
       {/* Top Section: User Avatar & Input */}
       <div className="flex items-center gap-3">
@@ -21,7 +34,7 @@ const CreatePostBox = () => {
         />
         <div
           className="flex-1 bg-gray-100 px-4 py-2 rounded-full outline-none text-gray-600 cursor-pointer"
-          onClick={() => console.log("Input field clicked")}
+          onClick={handleModelClick}
         >
           {`What's on your mind, ${user?.userName}?`}
         </div>
@@ -36,7 +49,9 @@ const CreatePostBox = () => {
           <FaVideo className="text-xl" />
           Live Video
         </button> */}
-        <button className="flex items-center gap-2 text-green-500 font-medium hover:bg-gray-100 px-4 py-2 rounded-md">
+        <button
+        onClick={handleModelClick} 
+         className="flex items-center gap-2 text-green-500 font-medium hover:bg-gray-100 px-4 py-2 rounded-md">
           <MdPhotoLibrary className="text-xl" />
           Photo/Video
         </button>
@@ -46,6 +61,9 @@ const CreatePostBox = () => {
         </button> */}
       </div>
     </div>
+
+    <CreateRecipeModal modalRef={createRecipeRef} stateProps={state} />
+   </>
   );
 };
 

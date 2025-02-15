@@ -2,21 +2,25 @@
 "use client";
 
 import UserApiLoading from "@/app/_components/shared/Loading/Loading";
-import { useHomeContext } from "@/context/Home.context";
+import { modelClose } from "@/helpers";
 import { useCreateRecipe } from "@/hooks/useRecipe.hook";
+import { getAllCategory } from "@/services/CategoryApi";
 import { imageUploadImageBB } from "@/services/imageUpload";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const RecipeForm = () => {
-  const { user} = useHomeContext();
+const RecipeForm = (
+  { state, modalRef,formRef }: { state: any, modalRef: any,formRef:any }
+) => {
+  const [category, setCategories] = useState<any[]>([]);
   const router = useRouter();
-  const [loading, setLoading]= useState(false)
+  const [loading, setLoading] = useState(false);
   const {
     mutate: createRecipePost,
     isPending,
     isSuccess,
-    data
+    data,
   } = useCreateRecipe();
 
   const [form, setForm] = useState({
@@ -36,10 +40,20 @@ const RecipeForm = () => {
   const handleRecipeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let uploadImage: any = "";
+    if (
+      !form.title ||
+      !form.description ||
+      
+      !form.category 
+    
+    ) {
+      toast.warning("Please fill all the fields");
+      return;
+    }
     if (form.image) {
       const payload = new FormData();
       payload.append("image", form.image);
-      setLoading(true)
+      setLoading(true);
       const updateImage: any = await imageUploadImageBB(payload);
       uploadImage = updateImage as string;
     }
@@ -50,9 +64,18 @@ const RecipeForm = () => {
       image: uploadImage,
     };
     // console.log({ insertValue });
-    setLoading(false)
+    setLoading(false);
     createRecipePost(insertValue);
   };
+
+  const fetchCategories = async () => {
+    const response = await getAllCategory();
+    setCategories(response.data);
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, [state]);
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -66,13 +89,15 @@ const RecipeForm = () => {
         tags: [] as string[],
         premium: false,
       });
-      if(user?.role === "admin"){
-      router.push("/dashboard/admin/managed-recipe");
-      }else{
-        router.push("/dashboard/user/my-recipes");
+      if(modalRef.current){
+        modelClose(modalRef);
       }
+
+      router.push("/");
     }
-  }, [isSuccess, router , data]);
+  }, [isSuccess, router, data]);
+
+  console.log({ category });
 
   return (
     <>
@@ -80,6 +105,7 @@ const RecipeForm = () => {
       <form
         className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg space-y-4"
         onSubmit={handleRecipeSubmit}
+    ref={formRef}
       >
         <h2 className="text-2xl font-bold">Create a Recipe</h2>
 
@@ -149,11 +175,11 @@ const RecipeForm = () => {
             required
           >
             <option value="">Select a category</option>
-            <option value="Italian">Italian</option>
-            <option value="Mexican">Mexican</option>
-            <option value="Indian">Indian</option>
-            <option value="Chinese">Chinese</option>
-            <option value="American">American</option>
+            {category.map((item) => (
+              <option key={item?._ie} value={item._id}>
+                {item.categoryName}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -178,7 +204,10 @@ const RecipeForm = () => {
 
           <ul className="mt-2 space-y-1">
             {ingredientsList.map((_, index) => (
-              <li key={index} className="flex items-center justify-between gap-1">
+              <li
+                key={index}
+                className="flex items-center justify-between gap-1"
+              >
                 <input
                   type="text"
                   value={form.ingredients[index] || ""}
@@ -201,7 +230,9 @@ const RecipeForm = () => {
                     );
                     setForm({
                       ...form,
-                      ingredients: form.ingredients.filter((_, i) => i !== index),
+                      ingredients: form.ingredients.filter(
+                        (_, i) => i !== index
+                      ),
                     });
                   }}
                   className="text-red-500 text-xs"
@@ -234,7 +265,10 @@ const RecipeForm = () => {
 
           <ul className="mt-2 space-y-1">
             {tagsList.map((_, index) => (
-              <li key={index} className="flex items-center justify-between gap-2">
+              <li
+                key={index}
+                className="flex items-center justify-between gap-2"
+              >
                 <input
                   type="text"
                   value={form.tags[index] || ""}

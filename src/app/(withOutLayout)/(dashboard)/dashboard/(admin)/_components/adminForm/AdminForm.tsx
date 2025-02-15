@@ -45,7 +45,7 @@ const AdminInsertForm = () => {
           address: "",
           bio: "",
         });
-        router.push("/dashboard/admin/manage-admin");
+        router.push("/Dashboard/admin/manage-admin");
       } else {
         toast.error(res.message);
       }
@@ -59,9 +59,9 @@ const AdminInsertForm = () => {
   };
 
   return (
-    <>
+    <div className="mt-10">
       {isLoading && <UserApiLoading />}
-      <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+      <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md ">
         <h2 className="text-xl font-bold mb-4">Insert Admin</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* User Name */}
@@ -118,7 +118,7 @@ const AdminInsertForm = () => {
           </button>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

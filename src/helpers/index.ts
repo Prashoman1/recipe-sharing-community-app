@@ -9,8 +9,8 @@ export const decodedToken = (token: string) => {
 export const modelClose = (modalRef:any, modalForm?:any) => {
   modalRef.current?.close();
   // console.log("helpers",modalForm.current);
-  if (modalForm.current) {
-    modalForm.current.reset(); // Reset the form fields
+  if (modalForm?.current) {
+    modalForm?.current.reset(); // Reset the form fields
   }
 };
 

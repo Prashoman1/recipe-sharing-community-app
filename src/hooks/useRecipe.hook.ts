@@ -2,8 +2,8 @@
 
 
     
-  import { createRecipe } from "@/services/RecipeApi";
-import { useMutation } from "@tanstack/react-query";
+  import { createRecipe, getAllPublicRecipes } from "@/services/RecipeApi";
+import { useMutation, useQuery } from "@tanstack/react-query";
   import { FieldValues } from "react-hook-form";
   import { toast } from "react-toastify";
   
@@ -30,6 +30,15 @@ import { useMutation } from "@tanstack/react-query";
       onError: (error) => {
         toast.error(error.message);
       },
+    });
+  };
+
+
+ export const useGetAllPublicRecipes = (query:any) => {
+    return useQuery<any, Error>({
+      queryKey: ["GET_ALL_PUBLIC_RECIPES", query],
+      queryFn: async () => await getAllPublicRecipes(query),
+
     });
   };
   

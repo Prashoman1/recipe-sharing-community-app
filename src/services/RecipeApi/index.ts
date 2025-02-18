@@ -99,3 +99,12 @@ export const updateRecipe = async (id: string, data: any) => {
     return error;
   }
 };
+
+export const getTopLatestRecipes = async () => {
+  try {
+    const response = await axiosInstance.get("/recipe/latest/recipes");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

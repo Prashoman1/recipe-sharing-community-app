@@ -6,6 +6,7 @@ import { BarChart } from "../BarChart/BarChart";
 import { useEffect, useState } from "react";
 import { getAllStatsDashboard } from "@/services/StatsApi";
 import DashBoardSkeleton from "@/app/_components/shared/DashBoardSkeleton/DashBoardSkeleton";
+import LatestRecipes from "@/app/_components/shared/LatestRecipes/LatestRecipes";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(false);
@@ -114,6 +115,9 @@ const Dashboard = () => {
         <div className="shadow-lg rounded-2xl bg-white p-4">
           <BarChart />
         </div>
+        <div className="shadow-lg rounded-2xl bg-white p-4 mt-4">
+          <LatestRecipes/>
+          </div>
       </div>
     </>
   );

@@ -12,10 +12,12 @@ import { TTableHeader } from "@/type";
 import { handleDelete } from "@/utils/handleDelete";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import Pagination from "../Pagination/Pagination";
 import useDebounce from "@/hooks/debouces.hook";
+import CreateRecipeModal from "@/app/_components/shared/CreateRecipe/CreateRecipe";
+import { modelOpen } from "@/helpers";
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
@@ -25,6 +27,8 @@ const RecipeList = () => {
   const [totalPages, setTotalPages] = useState<number | null>(null);
   const [showPage, setShowPage] = useState(1);
   const [searchRecipe, setSearchRecipe] = useState("");
+  const createRecipeRef = useRef(null);
+  const [fetchCategories, setFetchCategories] = useState(false);
   
   const searchTerm=useDebounce(searchRecipe);
 
@@ -83,15 +87,18 @@ const RecipeList = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full px-4 py-10">
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-2xl font-semibold">Recipe List</h1>
-          <Link
-            href="/dashboard/admin/recipe/add"
+          <button
+            onClick={()=>{
+              modelOpen(createRecipeRef);
+              setFetchCategories(!fetchCategories);
+            }}
             className="bg-blue-500 text-white p-2 rounded-md"
           >
             Add Recipe
-          </Link>
+          </button>
         </div>
         <div className="w-1/3 py-2">
           <input
@@ -173,6 +180,8 @@ const RecipeList = () => {
           />
         </div>
       </div>
+
+      <CreateRecipeModal modalRef={createRecipeRef} stateProps={fetchCategories} />
     </>
   );
 };

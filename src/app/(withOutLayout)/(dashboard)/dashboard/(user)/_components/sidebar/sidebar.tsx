@@ -1,7 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import SidebarLink from "@/app/(withOutLayout)/(dashboard)/_components/SideBarLink/SidebarLink";
 import React from "react";
-import { FiBookmark, FiHome, FiInfo, FiSettings, FiTag } from "react-icons/fi";
+import {
+ 
+  FiBookmark,
+
+  FiHome,
+  FiInfo,
+  FiSettings,
+  FiTag,
+} from "react-icons/fi";
+
 
 import "./style.css";
 import { useHomeContext } from "@/context/Home.context";
@@ -9,11 +19,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { RiAdminLine } from "react-icons/ri";
 import { FaUsers } from "react-icons/fa";
+import Accordion from "@/app/_components/shared/Accordion/Accordion";
 
 const UserSideBar = () => {
   const { user } = useHomeContext();
-
-  // console.log({user});
   
   return (
     <>
@@ -37,58 +46,72 @@ const UserSideBar = () => {
               <h2 className="font-semibold text-gray-900">{user?.userName}</h2>
             </div>
           </Link>
+
           {user?.role === "admin" ? (
             <>
               <SidebarLink
-              href="/Dashboard/admin"
-              icon={FiHome}
-              label="Dashboard"
-              activePaths={["/Dashboard/admin"]}
+                href="/Dashboard/admin"
+                icon={FiHome}
+                label="Dashboard"
+                activePaths={["/Dashboard/admin"]}
               />
               <SidebarLink
-              href="/Dashboard/admin/category"
-              icon={FiBookmark} 
-              label="Category"
-              activePaths={["/Dashboard/admin/category"]}
+                href="/Dashboard/admin/category"
+                icon={FiBookmark}
+                label="Category"
+                activePaths={["/Dashboard/admin/category"]}
               />
               <SidebarLink
-              href="/Dashboard/admin/tag"
-              icon={FiTag} 
-              label="Tags"
-              activePaths={["/Dashboard/admin/tag"]}
+                href="/Dashboard/admin/tag"
+                icon={FiTag}
+                label="Tags"
+                activePaths={["/Dashboard/admin/tag"]}
               />
-              {/* <SidebarLink
-              href="/Dashboard/admin/my-recipes"
-              icon={FiBookmark}
-              label="My Recipes"
-              activePaths={["/dashboard/Admin/my-recipes"]}
-              /> */}
+
               <SidebarLink
-              href="/Dashboard/admin/profile"
-              icon={FiSettings}
-              label="Manage Profile"
-              activePaths={["/Dashboard/Admin/profile"]}
+                href="/Dashboard/admin/profile"
+                icon={FiSettings}
+                label="Manage Profile"
+                activePaths={["/Dashboard/Admin/profile"]}
+              />
+              <Accordion>
+                <>
+                  <SidebarLink
+                    href="/Dashboard/admin/managed-recipe"
+                    icon={FiTag}
+                    label="Recipe Management"
+                    activePaths={["/Dashboard/admin/managed-recipe"]}
+                  />
+                  <SidebarLink
+                    href="/Dashboard/admin/allPublishRecipe"
+                    icon={FiTag}
+                    label="All Published Recipes"
+                    activePaths={["/Dashboard/admin/allPublishRecipe"]}
+                  />
+                  <SidebarLink
+                    href="/Dashboard/admin/unPublishRecipe"
+                    icon={FiTag}
+                    label="Unpublished Recipes"
+                    activePaths={["/Dashboard/admin/unPublishRecipe"]}
+                  />
+                </>
+              </Accordion>
+
+              
+              <SidebarLink
+                href="/Dashboard/admin/manage-admin"
+                icon={RiAdminLine}
+                label="Managed Admin"
+                activePaths={[
+                  "/Dashboard/admin/manage-admin",
+                  "Dashboard/admin/manage-admin/add",
+                ]}
               />
               <SidebarLink
-              href="/Dashboard/admin/managed-recipe"
-              icon={FiBookmark}
-              label="Managed Recipe"
-              activePaths={[
-                "/Dashboard/admin/managed-recipe",
-                "/Dashboard/admin/recipe/add",
-              ]}
-              />
-              <SidebarLink
-              href="/Dashboard/admin/manage-admin"
-              icon={RiAdminLine}
-              label="Managed Admin"
-              activePaths={["/Dashboard/admin/manage-admin","Dashboard/admin/manage-admin/add"]}
-              />
-              <SidebarLink
-              href="/Dashboard/admin/user-list"
-              icon={FaUsers}
-              label="User List"
-              activePaths={["/Dashboard/admin/user-list"]}
+                href="/Dashboard/admin/user-list"
+                icon={FaUsers}
+                label="User List"
+                activePaths={["/Dashboard/admin/user-list"]}
               />
             </>
           ) : (
@@ -97,7 +120,10 @@ const UserSideBar = () => {
                 href="/Dashboard/user/my-recipes"
                 icon={FiBookmark}
                 label="My Recipes"
-                activePaths={["/Dashboard/user/my-recipes","Dashboard/user/recipe/add"]}
+                activePaths={[
+                  "/Dashboard/user/my-recipes",
+                  "Dashboard/user/recipe/add",
+                ]}
               />
               <SidebarLink
                 href="/Dashboard/user/profile"

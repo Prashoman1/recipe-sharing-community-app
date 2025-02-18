@@ -4,7 +4,7 @@ import React from "react";
 const UserApiLoading = () => {
   return (
     <>
-      <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
+      <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10 h-screen w-full">
         <div className="flex flex-col items-center space-y-4">
           <div
             aria-label="Loading..."

@@ -79,6 +79,7 @@ const RecipeList = () => {
       toast.success(res.message);
     }
   };
+  // console.log({ recipes });
 
   return (
     <>

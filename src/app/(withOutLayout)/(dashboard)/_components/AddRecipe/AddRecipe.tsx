@@ -2,6 +2,7 @@
 "use client";
 
 import UserApiLoading from "@/app/_components/shared/Loading/Loading";
+import { useHomeContext } from "@/context/Home.context";
 import { modelClose } from "@/helpers";
 import { useCreateRecipe } from "@/hooks/useRecipe.hook";
 import { getAllCategory } from "@/services/CategoryApi";
@@ -10,9 +11,16 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const RecipeForm = (
-  { state, modalRef,formRef }: { state: any, modalRef: any,formRef:any }
-) => {
+const RecipeForm = ({
+  state,
+  modalRef,
+  formRef,
+}: {
+  state: any;
+  modalRef: any;
+  formRef: any;
+}) => {
+  const { user } = useHomeContext();
   const [category, setCategories] = useState<any[]>([]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -40,13 +48,7 @@ const RecipeForm = (
   const handleRecipeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let uploadImage: any = "";
-    if (
-      !form.title ||
-      !form.description ||
-      
-      !form.category 
-    
-    ) {
+    if (!form.title || !form.description || !form.category) {
       toast.warning("Please fill all the fields");
       return;
     }
@@ -63,7 +65,7 @@ const RecipeForm = (
       cookingTime: Number(form.cookingTime),
       image: uploadImage,
     };
-    // console.log({ insertValue });
+    console.log({ insertValue });
     setLoading(false);
     createRecipePost(insertValue);
   };
@@ -89,7 +91,8 @@ const RecipeForm = (
         tags: [] as string[],
         premium: false,
       });
-      if(modalRef.current){
+      if (modalRef.current) {
+        
         modelClose(modalRef);
       }
 
@@ -103,9 +106,9 @@ const RecipeForm = (
     <>
       {(isPending || loading) && <UserApiLoading />}
       <form
-        className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg space-y-4"
+        className="max-w-3xl mx-auto px-2 lg:p-6 bg-white  space-y-4"
         onSubmit={handleRecipeSubmit}
-    ref={formRef}
+        ref={formRef}
       >
         <h2 className="text-2xl font-bold">Create a Recipe</h2>
 
@@ -334,16 +337,19 @@ const RecipeForm = (
             required
           >
             <option value="false">Free</option>
-            <option value="true">Premium</option>
+            {user?.role === "admin" && <option value="true">Premium</option>}
           </select>
         </div>
 
         {/* Submit Button */}
         <button
+          disabled={loading || isPending}
           type="submit"
-          className="w-full bg-green-500 text-white px-4 py-2 rounded font-bold"
+          className={`w-full px-4 py-2 rounded font-bold ${
+            loading || isPending ? "bg-gray-400" : "bg-green-500"
+          } text-white`}
         >
-          Submit Recipe
+          {loading || isPending ? "Loading..." : "Submit Recipe"}
         </button>
       </form>
     </>

@@ -1,17 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import CreateRecipeModal from "@/app/_components/shared/CreateRecipe/CreateRecipe";
 import TableSkeleton from "@/app/_components/shared/Skeleton/Skeleton";
 import Table from "@/app/_components/shared/Table/Table";
+import { modelOpen } from "@/helpers";
 import { deleteRecipeApi, getRecipesByUser } from "@/services/RecipeApi";
 import { TTableHeader } from "@/type";
 import { handleDelete } from "@/utils/handleDelete";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const UserRecipeList = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const addRecipeModelRef = useRef(null);
+  const [fetchRecipesCategories, setFetchRecipesCategories] = useState(false);
   const tableHeadings: TTableHeader[] = [
     { title: "SI", key: "si" },
     { title: "Title", key: "title" },
@@ -44,19 +48,22 @@ const UserRecipeList = () => {
     }
   };
 
-  // console.log(recipes);
+  console.log({recipes});
 
   return (
     <>
       <div className="w-full">
         <div className="flex justify-between items-center pb-4">
           <h1 className="text-2xl font-semibold">Recipe List</h1>
-          <Link
-            href="/Dashboard/user/recipe/add"
+          <button
+            onClick={()=>{
+              modelOpen(addRecipeModelRef)
+              setFetchRecipesCategories(!fetchRecipesCategories)
+            }}
             className="bg-blue-500 text-white p-2 rounded-md"
           >
             Add Recipe
-          </Link>
+          </button>
         </div>
         <div className="w-full overflow-x-auto">
           {loading ? (
@@ -124,6 +131,7 @@ const UserRecipeList = () => {
           )}
         </div>
       </div>
+      <CreateRecipeModal modalRef={addRecipeModelRef} stateProps={fetchRecipesCategories}/>
     </>
   );
 };

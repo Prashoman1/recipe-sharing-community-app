@@ -108,3 +108,11 @@ export const getTopLatestRecipes = async () => {
     return error;
   }
 }
+export const getTrendingRecipes = async () => {
+  try {
+    const response = await axiosInstance.get("/recipe/trending/recipes");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

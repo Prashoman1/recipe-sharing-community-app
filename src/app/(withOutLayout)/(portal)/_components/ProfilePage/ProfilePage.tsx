@@ -199,8 +199,8 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
           </div>
         )}
       </div>
-      <div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+      <div className="px-4">
+        <div className="grid grid-cols-1  gap-6 p-6">
           {loading && <RecipeCardSkeleton />}
           {recipes?.map((recipe: any) => {
             const isLiked = myLikes?.find(

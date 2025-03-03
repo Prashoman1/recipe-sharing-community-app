@@ -12,6 +12,7 @@ import useDebounce from "@/hooks/debouces.hook";
 import TrendingRecipes from "@/app/_components/shared/Tending/Tending";
 import CreatePostBox from "@/app/_components/shared/CreateRecipeByAny/CreateRecipe";
 import { useHomeContext } from "@/context/Home.context";
+import TopUserList from "@/app/_components/shared/TopUserList/TopUserList";
 
 const RecipeSection = ({ myLikes }: { myLikes: any }) => {
   const {user} = useHomeContext();
@@ -40,7 +41,7 @@ const RecipeSection = ({ myLikes }: { myLikes: any }) => {
     fetchRecipes();
   }, [refetch, searchTerm]);
 
-  // console.log(recipes);
+  console.log(recipes);
 
   return (
     <div className="flex">
@@ -75,7 +76,7 @@ const RecipeSection = ({ myLikes }: { myLikes: any }) => {
             <TrendingRecipes />
           </div>
           <div className="max-h-[calc(100vh-70vh)] top-[20%] group overflow-hidden hover:overflow-y-auto transition-all duration-300 pb-5 custom-scrollbar mt-5">
-            <TrendingRecipes />
+            <TopUserList />
           </div>
         </div>
       </div>

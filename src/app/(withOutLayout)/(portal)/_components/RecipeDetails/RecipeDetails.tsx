@@ -100,6 +100,9 @@ export default function RecipeDetails({ myRating }: TProps) {
     }
   };
 
+  // console.log({recipe});
+  
+
   const myRatingIsRecipe = myRating?.find((item: any) => item.recipe === id);
 
   return (
@@ -120,7 +123,7 @@ export default function RecipeDetails({ myRating }: TProps) {
           <h1 className="text-3xl font-bold mt-4">{recipe?.title}</h1>
 
           <p className="mt-2 text-sm text-gray-600">
-            Category: <span className="font-semibold">{recipe?.category}</span>
+            Category: <span className="font-semibold">{recipe?.category?.categoryName || ''}</span>
           </p>
           <p className="text-sm text-gray-600">
             Cooking Time:{" "}

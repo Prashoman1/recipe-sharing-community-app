@@ -117,7 +117,7 @@ const RecipeList = () => {
             <Table data={tableHeadings}>
               {recipes?.map((recipe: any, index: number) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{ ((page-1)*limit) + index+1 }</td>
                   <td>{recipe.title}</td>
                   <td>
                     <Image
@@ -128,7 +128,7 @@ const RecipeList = () => {
                       className="w-10 h-10 object-cover rounded-full"
                     />
                   </td>
-                  <td>{recipe.category}</td>
+                  <td>{recipe.category?.categoryName || ""}</td>
                   <td>
                     <button
                       onClick={() => UpdateRecipePublishStatus(recipe?._id)}

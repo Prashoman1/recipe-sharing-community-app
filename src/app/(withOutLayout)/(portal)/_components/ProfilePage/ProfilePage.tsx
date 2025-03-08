@@ -123,7 +123,7 @@ const ProfilePage = ({ myLikes, myFollowingUsers }: TProps) => {
         {loading ? (
           <ProfileSkeleton />
         ) : (
-          <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="max-w-2xl mx-auto bg-white shadow-md rounded-lg overflow-hidden px-2 lg:px-0">
             {/* Cover Photo */}
             <div className="h-40 bg-gradient-to-r from-blue-500 to-purple-600 relative">
               <Image

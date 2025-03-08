@@ -11,10 +11,10 @@ export default function RootLayout({
     <div>
       <Navbar />
       <div className="flex">
-        <div className="w-[20%] h-screen max-h-screen overflow-hidden relative">
+        <div className="hidden lg:inline-block lg:w-[20%] h-screen max-h-screen overflow-hidden relative">
           <UserSideBar />
         </div>
-        <div className="w-[80%]">
+        <div className="w-full lg:w-[80%]">
           <main>{children}</main>
         </div>
       </div>

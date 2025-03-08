@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import {  FiHome  } from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
 import Link from "next/link";
 
 import UserDropdown from "../UserDrowpDown/UserDropDown";
@@ -17,8 +17,8 @@ const Navbar = () => {
   const pathName = usePathname();
 
   return (
-    <header className="bg-white  shadow-md sticky top-0 z-50">
-      <nav className=" flex items-center justify-between py-4 px-14">
+    <header className="bg-white shadow-md sticky top-0 z-50">
+      <nav className="flex items-center justify-between py-4 px-4 lg:px-14">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <span className="lg:hidden">
@@ -37,39 +37,30 @@ const Navbar = () => {
             </h1>
           </Link>
         </div>
+
+        {/* Search Input */}
+        <div className="hidden md:flex flex-grow mx-4">
+          <input
+            type="text"
+            placeholder="Search recipes..."
+            className="w-full max-w-md px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          />
+        </div>
+
+        {/* Navigation Links */}
         <div className="hidden md:flex items-center space-x-6">
           <Link
             href="/"
-            className={`flex items-center  hover:text-emerald-600 transition ${
+            className={`flex items-center hover:text-emerald-600 transition ${
               pathName === "/" ? "text-emerald-600" : "text-gray-600"
             }`}
           >
-            <FiHome className="mr-1 w-10 h-8"  /> 
+            <FiHome className="mr-1 w-10 h-8" />
           </Link>
-          {/* {user?._id && (
-            <>
-              <Link
-                href={`/all-users`}
-                className={`flex items-center  hover:text-emerald-600 transition ${
-                  pathName === "/all-users"
-                    ? "text-emerald-600"
-                    : "text-gray-600"
-                }`}
-              >
-                <Users className="mr-2" size={18} />
-                All User
-              </Link>
-
-              
-            </>
-          )} */}
         </div>
 
-        {/* Post Recipe Button */}
-
+        {/* User Dropdown */}
         <UserDropdown />
-
-        {/* Mobile Menu Icon */}
       </nav>
     </header>
   );

@@ -129,17 +129,14 @@ const RecipeCard = ({
             {/* Dropdown Menu */}
             {menuOpen && (
               <div className="absolute right-0 z-40 mt-2 w-40 bg-white border rounded-lg shadow-md p-2">
-                <Link href={recipe?.user?._id} className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100">
-                  View Profile
-                </Link>
-                {/* {
-                  loginUserInfo
-                } */}
-                <button className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100">
-                  Follow
-                </button>
-                
-              </div>
+              <Link href={`/profile/${recipe?.user?._id}`} className=" block !w-full text-left px-3 py-2 text-sm hover:bg-gray-100  ">
+                View Profile
+              </Link>
+              <button className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100">
+                Follow
+              </button>
+            </div>
+            
             )}
           </div>
         </div>

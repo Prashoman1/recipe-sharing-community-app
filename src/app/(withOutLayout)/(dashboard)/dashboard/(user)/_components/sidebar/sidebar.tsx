@@ -17,7 +17,7 @@ const UserSideBar = () => {
 
   return (
     <>
-      <aside className="w-[15%] fixed left-5 max-h-[calc(100vh-20vh)] top-[20%] group overflow-hidden hover:overflow-y-auto transition-all duration-300 pb-5 custom-scrollbar">
+      <aside className="hidden lg:block w-[15%] fixed left-5 max-h-[calc(100vh-20vh)] top-[20%] group overflow-hidden hover:overflow-y-auto transition-all duration-300 pb-5 custom-scrollbar">
         <nav className="space-y-3">
           <Link
             href={`/profile/${user._id}`}

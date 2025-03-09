@@ -16,6 +16,7 @@ export const HomeContextProvider = ({
 }) => {
   const [user, setUser] = useState({});
   const [refreshUser, setRefreshUser] = useState(false);
+  const [searchRecipe, setSearchRecipe] = useState("");
 
   const fetchTokenUserInfo = async () => {
     const userInfo = await currentUser();
@@ -39,6 +40,8 @@ export const HomeContextProvider = ({
     user,
     refreshUser,
     setRefreshUser,
+    setSearchRecipe,
+    searchRecipe,
   } as any;
   return <HomeContext.Provider value={value}>{children}</HomeContext.Provider>;
 };

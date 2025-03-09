@@ -10,10 +10,11 @@ import Logo from "../../../../../../public/images/logo.jpg";
 import Image from "next/image";
 import ResponsiveBar from "../ResponsiveBar/ResponsiveBar";
 import { usePathname } from "next/navigation";
+import { useHomeContext } from "@/context/Home.context";
 // import Image from "next/image";
 
 const Navbar = () => {
-  // const { user } = useHomeContext();
+  const { setSearchRecipe } = useHomeContext();
   const pathName = usePathname();
 
   return (
@@ -39,9 +40,10 @@ const Navbar = () => {
         </div>
 
         {/* Search Input */}
-        <div className="hidden md:flex flex-grow mx-4">
+        <div className="hidden lg:block mx-4 w-[30%]">
           <input
             type="text"
+            onChange={(e) => setSearchRecipe(e.target.value)}
             placeholder="Search recipes..."
             className="w-full max-w-md px-4 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />

@@ -3,5 +3,7 @@ export  type TContextType={
     user: any,
     setUser: any,
     refreshUser: any,
-    setRefreshUser:any
+    setRefreshUser:any,
+    setSearchRecipe: any,
+    searchRecipe: any,
 }

@@ -116,3 +116,14 @@ export const getTrendingRecipes = async () => {
     return error;
   }
 }
+
+export const getAllUnPublishedRecipes = async (query:any) =>{
+  try {
+    const response = await axiosInstance.get("/recipe/get-all/unPublish",{
+      params:query
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+}

@@ -74,16 +74,16 @@ const UserSideBar = () => {
                       activePaths={["/Dashboard/admin/managed-recipe"]}
                     />
                     <SidebarLink
-                      href="/Dashboard/admin/allPublishRecipe"
+                      href="/Dashboard/admin/published-recipes"
                       icon={FiTag}
                       label="All Published Recipes"
-                      activePaths={["/Dashboard/admin/allPublishRecipe"]}
+                      activePaths={["/Dashboard/admin/published-recipes"]}
                     />
                     <SidebarLink
-                      href="/Dashboard/admin/unPublishRecipe"
+                      href="/Dashboard/admin/unpublished-recipes"
                       icon={FiTag}
                       label="Unpublished Recipes"
-                      activePaths={["/Dashboard/admin/unPublishRecipe"]}
+                      activePaths={["/Dashboard/admin/unpublished-recipes"]}
                     />
                   </>
                 </Accordion>

@@ -15,7 +15,7 @@ import { useHomeContext } from "@/context/Home.context";
 import TopUserList from "@/app/_components/shared/TopUserList/TopUserList";
 
 const RecipeSection = ({ myLikes }: { myLikes: any }) => {
-  const {user} = useHomeContext();
+  const {user, searchRecipe} = useHomeContext();
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refetch, setRefetch] = useState(false);
@@ -23,10 +23,10 @@ const RecipeSection = ({ myLikes }: { myLikes: any }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [page, setPage] = useState();
   const [limit, setLimit] = useState();
-
-  const searchTerm = useDebounce(search);
+  console.log({searchRecipe});
   
-
+  const searchTerm = useDebounce(searchRecipe);
+  
   const fetchRecipes = async () => {
     const query = {
       page,
